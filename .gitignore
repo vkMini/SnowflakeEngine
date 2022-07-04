@@ -1,0 +1,18 @@
+# IDE Directories
+.vs/
+.idea/
+
+# Build Directories
+Binaries/
+Intermediate/
+
+# Project Files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+*.xcworkspace
+*.xcodeproject
+
+Makefile
