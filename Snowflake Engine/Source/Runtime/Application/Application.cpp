@@ -1,6 +1,9 @@
 #include "sfpch.h"
 #include "Application.h"
 
+#include "Logging/Log.h"
+#include "Events/ApplicationEvent.h"
+
 extern bool bIsApplicationRunning;
 
 namespace Snowflake {
@@ -41,7 +44,9 @@ namespace Snowflake {
 
 	void Application::Initialize()
 	{
-		
+		// Event System test
+		WindowResizeEvent e(3860, 2160);
+		SNOWFLAKE_ENGINE_DEBUG(e);
 	}
 
 	
