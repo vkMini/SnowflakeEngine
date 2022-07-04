@@ -2,7 +2,7 @@
 
 ## What is Snowflake Engine?
 
-Snowflake Engine is a 2D/3D rendering engine made with primary use case of game development in mind. It is also made with performance and ease of use in mind, you can make your game and release as fast as possible.
+Snowflake Engine is a 2D/3D rendering engine made with primary use case of game development in mind. It is also made with performance and ease of use in mind, so you can make your game and release it as fast as possible.
 
 As of currently, the engine is still very early into its development, so many core features of any game engine are missing and are yet to be implemented.
 
@@ -18,7 +18,9 @@ Next, for Windows users, you'll need to have [Visual Studio 2022](https://visual
 
 For MacOS and Linux users, you can use [XCode](https://developer.apple.com/xcode/) and [Visual Studio Code](https://code.visualstudio.com) respectively.
 
-For Linux users, you'll want to have the [Makefile Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools) extensions for VS Code installed, as this will help with the building process on Linux.
+For Linux users optionally, you'll want to have the [Makefile Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools) extensions for VS Code installed, as this will help with the building process on Linux.
+
+But Linux users will need to have [GNU Make](https://www.gnu.org/software/make/) installed to build the engine. 
 
 ### Building the engine
 
@@ -30,7 +32,7 @@ First, you'll want to clone the engine's source code into a folder on your compu
 
 Once you have cloned the engine, go inside of the "Scripts" and here, you'll find scripts for generating project files for Windows, MacOS and Linux. Each generating project files for Visual Studio 2022, XCode and Makefile respectively. 
 
-If you do want the scripts to generate project files for something else, you'll need to change the script manually. You can refer to the [Premake documentation](https://premake.github.io/docs/Using-Premake) for all available options.
+If you do want a script to generate project files for something else, you'll need to change the script manually. You can refer to the [Premake documentation](https://premake.github.io/docs/Using-Premake) for all available options.
 
 Anyways, all you need to do is run the script for your respective platform and your project files should be generated.
 
