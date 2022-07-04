@@ -16,3 +16,6 @@ Intermediate/
 *.xcodeproject
 
 Makefile
+
+# Snowflake Engine
+Logs/

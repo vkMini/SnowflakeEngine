@@ -19,7 +19,14 @@ project "Snowflake Engine"
 	includedirs
 	{
 		"Source",
-		"Source/Runtime"
+		"Source/Runtime",
+
+		"%{IncludeDir.spdlog}"
+	}
+
+	links
+	{
+		"spdlog"
 	}
 
 	filter "system:windows"

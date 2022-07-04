@@ -4,6 +4,7 @@
 
 #include "Runtime/Application/Application.h"
 
+#include "Runtime/Logging/Log.h"
 
 /* This is required by Snowflake Engine applications to run. DO NOT REMOVE THIS! */
 #include "Runtime/Application/ApplicationEntryPoint.h"

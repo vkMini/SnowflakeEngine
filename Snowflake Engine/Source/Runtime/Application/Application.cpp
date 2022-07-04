@@ -1,8 +1,6 @@
 #include "sfpch.h"
 #include "Application.h"
 
-#include <cstdio>
-
 extern bool bIsApplicationRunning;
 
 namespace Snowflake {
@@ -43,7 +41,7 @@ namespace Snowflake {
 
 	void Application::Initialize()
 	{
-		printf("Welcome to Snowflake Engine!\n");
+		
 	}
 
 	
