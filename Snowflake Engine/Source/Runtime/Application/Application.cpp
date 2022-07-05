@@ -12,6 +12,8 @@ extern bool bIsApplicationRunning;
 
 namespace Snowflake {
 
+	Application* Application::s_ApplicationInstance = nullptr;
+
 	Application::Application()
 	{
 		Initialize();
@@ -29,6 +31,9 @@ namespace Snowflake {
 			glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+			for (Layer* layer : m_LayerStack)
+				layer->OnUpdate();
+
 			m_AppWindow->ProcessEvents();
 			m_AppWindow->SwapBuffers();
 		}
@@ -36,6 +41,7 @@ namespace Snowflake {
 
 	void Application::Restart()
 	{
+		// By terminating the loop owned by m_IsRunning, the loop owned by bIsApplicationRunning will create a new instance of the engine, after shutdown.
 		m_IsRunning = false;
 	}
 
@@ -51,6 +57,8 @@ namespace Snowflake {
 
 	void Application::Initialize()
 	{
+		s_ApplicationInstance = this;
+
 		m_AppWindow = Window::CreateWindow();
 		m_AppWindow->Initialize();
 		m_AppWindow->SetEventCallbackFunction(SNOWFLAKE_BIND_EVENT_FUNCTION(Application::OnEvent));
@@ -67,7 +75,12 @@ namespace Snowflake {
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(SNOWFLAKE_BIND_EVENT_FUNCTION(Application::OnWindowClose));
 
-		SNOWFLAKE_ENGINE_DEBUG(event);
+		for (auto it = m_LayerStack.begin(); it != m_LayerStack.end(); ++it)
+		{
+			if (event.isHandled)
+				break;
+			(*it)->OnEvent(event);
+		}
 	}
 
 	/*--------*/

@@ -6,6 +6,12 @@
 
 #include "Runtime/Logging/Log.h"
 
+#include "Runtime/Events/KeyboardEvent.h"
+#include "Runtime/Events/MouseEvent.h"
+#include "Runtime/Events/ApplicationEvent.h"
+
+#include "Runtime/Layers/Layer.h"
+
 /* This is required by Snowflake Engine applications to run. DO NOT REMOVE THIS! */
 #include "Runtime/Application/ApplicationEntryPoint.h"
 /*-------------------------------------------------------------------------------*/
