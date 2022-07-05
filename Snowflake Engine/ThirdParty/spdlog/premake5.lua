@@ -4,7 +4,7 @@ project "spdlog"
     cppdialect "C++11"
     staticruntime "Off"
 
-    targetdir("Binaries/Win64")
+    targetdir("Binaries")
     objdir("!Intermediate")
 
     files

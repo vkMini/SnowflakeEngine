@@ -11,12 +11,21 @@ workspace "Snowflake Engine"
 		"Dist"
 	}
 
-BinariesDir = "%{wks.location}/Binaries/%{prj.name}/Win64"
+BinariesDir = "%{wks.location}/Binaries/%{prj.name}"
 IntermediateDir = "!%{wks.location}/Intermediate/%{prj.name}"
+
+-- Include Projects
 
 group "Dependencies"
 	include "Snowflake Engine/ThirdParty/spdlog"
+	include "Snowflake Engine/ThirdParty/GLFW"
+	include "Snowflake Engine/ThirdParty/Glad"
 group ""
 
-include "Snowflake Engine"
-include "SandboxGame"
+group "Core"
+	include "Snowflake Engine"
+group ""
+
+group "Tools"
+	include "SandboxGame"
+group ""

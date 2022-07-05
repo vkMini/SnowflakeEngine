@@ -21,12 +21,22 @@ project "Snowflake Engine"
 		"Source",
 		"Source/Runtime",
 
-		"%{IncludeDir.spdlog}"
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
+	}
+
+	defines
+	{
+		"GLFW_INCLUDE_NONE"
 	}
 
 	links
 	{
-		"spdlog"
+		"spdlog",
+		"GLFW",
+		"Glad",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"

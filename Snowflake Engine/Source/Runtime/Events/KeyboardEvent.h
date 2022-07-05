@@ -22,7 +22,7 @@ namespace Snowflake {
 	class KeyPressedEvent : public KeyboardEvent
 	{
 	public:
-		KeyPressedEvent(const uint16_t keyCode, bool isRepeated)
+		KeyPressedEvent(const uint16_t keyCode, bool isRepeated = false)
 			: KeyboardEvent(keyCode), m_IsRepeated(isRepeated) {}
 
 		bool IsBeingRepeated() const { return m_IsRepeated; }
