@@ -34,6 +34,12 @@ namespace Snowflake {
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+				layer->OnImGuiRender();
+			m_ImGuiLayer->End();
+				
+
 			m_AppWindow->ProcessEvents();
 			m_AppWindow->SwapBuffers();
 		}
@@ -62,6 +68,9 @@ namespace Snowflake {
 		m_AppWindow = Window::CreateWindow();
 		m_AppWindow->Initialize();
 		m_AppWindow->SetEventCallbackFunction(SNOWFLAKE_BIND_EVENT_FUNCTION(Application::OnEvent));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushLayer(m_ImGuiLayer);
 	}
 
 	

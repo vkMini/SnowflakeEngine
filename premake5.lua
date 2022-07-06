@@ -20,6 +20,7 @@ group "Dependencies"
 	include "Snowflake Engine/ThirdParty/spdlog"
 	include "Snowflake Engine/ThirdParty/GLFW"
 	include "Snowflake Engine/ThirdParty/Glad"
+	include "Snowflake Engine/ThirdParty/ImGui"
 group ""
 
 group "Core"

@@ -5,6 +5,7 @@
 #include "Window.h"
 
 #include "Layers/LayerStack.h"
+#include "UI/ImGuiLayer.h"
 
 namespace Snowflake {
 
@@ -39,6 +40,8 @@ namespace Snowflake {
 		static Application* s_ApplicationInstance;
 
 		Scope<Window> m_AppWindow;
+
+		ImGuiLayer* m_ImGuiLayer;
 
 		LayerStack m_LayerStack;
 

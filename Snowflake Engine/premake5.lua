@@ -23,7 +23,8 @@ project "Snowflake Engine"
 
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	defines
@@ -36,6 +37,7 @@ project "Snowflake Engine"
 		"spdlog",
 		"GLFW",
 		"Glad",
+		"ImGui",
 		"opengl32.lib"
 	}
 

@@ -18,13 +18,13 @@ public:
 	// Called every frame
 	void OnUpdate() override
 	{
-		SNOWFLAKE_CLIENT_DEBUG("SandboxLayer::OnUpdate");
+		
 	}
 
 	// Called when an event is dispatched
 	void OnEvent(Snowflake::Event& event) override
 	{
-		SNOWFLAKE_CLIENT_DEBUG("SandboxLayer::OnEvent");
+		
 	}
 };
 
