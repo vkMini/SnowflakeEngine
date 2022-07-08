@@ -6,6 +6,8 @@
 #include "Logging/Log.h"
 #include "Events/ApplicationEvent.h"
 
+#include "Input/Input.h"
+
 #include <glad/glad.h>
 
 extern bool bIsApplicationRunning;
@@ -38,7 +40,6 @@ namespace Snowflake {
 			for (Layer* layer : m_LayerStack)
 				layer->OnImGuiRender();
 			m_ImGuiLayer->End();
-				
 
 			m_AppWindow->ProcessEvents();
 			m_AppWindow->SwapBuffers();
@@ -71,6 +72,8 @@ namespace Snowflake {
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushLayer(m_ImGuiLayer);
+
+		Input::Initialize();
 	}
 
 	

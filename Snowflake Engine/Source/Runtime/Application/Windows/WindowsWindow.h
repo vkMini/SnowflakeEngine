@@ -41,6 +41,8 @@ namespace Snowflake {
 		inline virtual void* GetWindowHandle() const override { return m_WindowHandle; }
 	private:
 		virtual void Shutdown();
+
+		void JoystickCallback(int joystickID, int joystickEvent);
 	private:
 		WindowSpecification m_Specification;
 		GLFWwindow* m_WindowHandle;

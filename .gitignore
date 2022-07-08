@@ -19,3 +19,4 @@ Makefile
 
 # Snowflake Engine
 Logs/
+imgui.ini

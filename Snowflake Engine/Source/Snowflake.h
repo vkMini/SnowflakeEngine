@@ -12,6 +12,8 @@
 
 #include "Runtime/Layers/Layer.h"
 
+#include "Runtime/Input/Input.h"
+
 /* This is required by Snowflake Engine applications to run. DO NOT REMOVE THIS! */
 #include "Runtime/Application/ApplicationEntryPoint.h"
 /*-------------------------------------------------------------------------------*/

@@ -5,3 +5,4 @@ IncludeDir["spdlog"] = "%{wks.location}/Snowflake Engine/ThirdParty/spdlog/inclu
 IncludeDir["GLFW"] = "%{wks.location}/Snowflake Engine/ThirdParty/GLFW/include"
 IncludeDir["Glad"] = "%{wks.location}/Snowflake Engine/ThirdParty/Glad/include"
 IncludeDir["ImGui"] = "%{wks.location}/Snowflake Engine/ThirdParty/ImGui"
+IncludeDir["glm"] = "%{wks.location}/Snowflake Engine/ThirdParty/glm"
