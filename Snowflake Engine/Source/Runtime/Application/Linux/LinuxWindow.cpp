@@ -7,6 +7,8 @@
 #include "Events/MouseEvent.h"
 #include "Events/ApplicationEvent.h"
 
+#include "RendererCore/RendererContext.h"
+
 #include <glad/glad.h>
 
 namespace Snowflake {
@@ -58,8 +60,8 @@ namespace Snowflake {
 			m_WindowHandle = glfwCreateWindow((int)m_Specification.Width, (int)m_Specification.Height, m_Specification.Title.c_str(), nullptr, nullptr);
 		}
 
-		glfwMakeContextCurrent(m_WindowHandle);
-		SNOWFLAKE_ENGINE_ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to create an OpenGL context!");
+		auto context = RendererContext::CreateContext(m_WindowHandle);
+		context->Initialize();
 
 		glfwSetWindowUserPointer(m_WindowHandle, &m_WindowData);
 		SetVSyncEnabled(true);

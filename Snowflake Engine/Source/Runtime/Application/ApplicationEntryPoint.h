@@ -11,8 +11,6 @@ namespace Snowflake {
 		while (bIsApplicationRunning)
 		{
 			Log::Initialize();
-			SNOWFLAKE_ENGINE_INFO("Engine Logger Initialized!");
-			SNOWFLAKE_CLIENT_INFO("Client Logger Initliazed!");
 
 			Application* app = CreateApplication();
 			app->Start();
