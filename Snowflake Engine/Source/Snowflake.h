@@ -14,6 +14,15 @@
 
 #include "Runtime/Input/Input.h"
 
+/* Renderer */
+#include "Runtime/RendererCore/Shader.h"
+#include "Runtime/RendererCore/VertexArray.h"
+#include "Runtime/RendererCore/VertexBuffer.h"
+#include "Runtime/RendererCore/IndexBuffer.h"
+
+#include "Runtime/RendererCore/Renderer.h"
+#include "Runtime/RendererCore/RendererCommand.h"
+
 /* This is required by Snowflake Engine applications to run. DO NOT REMOVE THIS! */
 #include "Runtime/Application/ApplicationEntryPoint.h"
 /*-------------------------------------------------------------------------------*/

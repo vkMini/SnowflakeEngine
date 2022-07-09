@@ -8,6 +8,9 @@
 
 #include "Input/Input.h"
 
+#include "RendererCore/Renderer.h"
+#include "RendererCore/RendererCommand.h"
+
 #include <glad/glad.h>
 
 extern bool bIsApplicationRunning;
@@ -30,13 +33,6 @@ namespace Snowflake {
 	{
 		while (m_IsRunning)
 		{
-			glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
-
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
@@ -78,34 +74,6 @@ namespace Snowflake {
 		PushLayer(m_ImGuiLayer);
 
 		Input::Initialize();
-
-		/* Render a Triangle */
-
-		float vertices[3 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.0f,  0.5f, 0.0f
-		};
-
-		unsigned int indices[3] = {
-			0, 1, 2
-		};
-
-		m_Shader = Shader::CreateShader("Assets/Shaders/Default.glsl");
-
-		m_VertexArray = VertexArray::CreateVertexArray();
-
-		m_VertexBuffer = VertexBuffer::CreateBuffer(vertices, sizeof(vertices));
-		m_VertexBuffer->SetBufferLayout({
-			{ ShaderDataType::Float3, "a_Position" }
-		});
-
-		m_IndexBuffer = IndexBuffer::CreateBuffer(indices, sizeof(indices));
-		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-		/*-------------------*/
 	}
 
 	
@@ -113,6 +81,10 @@ namespace Snowflake {
 	{
 
 	}
+
+	/*--------*/
+	/* Events */
+	/*--------*/
 
 	void Application::OnEvent(Event& event)
 	{
@@ -126,10 +98,6 @@ namespace Snowflake {
 			(*it)->OnEvent(event);
 		}
 	}
-
-	/*--------*/
-	/* Events */
-	/*--------*/
 
 	bool Application::OnWindowClose(WindowCloseEvent& event)
 	{

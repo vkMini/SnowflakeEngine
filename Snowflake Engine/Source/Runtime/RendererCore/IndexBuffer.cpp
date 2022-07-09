@@ -7,12 +7,12 @@
 
 namespace Snowflake {
 
-	Ref<IndexBuffer> IndexBuffer::CreateBuffer(uint32_t* indices, uint32_t size)
+	Ref<IndexBuffer> IndexBuffer::CreateBuffer(uint32_t* indices, uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: SNOWFLAKE_ENGINE_ASSERT(false, "Failed to create index buffer! No Rendering API was selected!"); return nullptr;
-			case RendererAPI::API::OpenGL: return CreateRef<OpenGLIndexBuffer>(indices, size);
+			case RendererAPI::API::OpenGL: return CreateRef<OpenGLIndexBuffer>(indices, count);
 		}
 
 		SNOWFLAKE_ENGINE_ASSERT(false, "Failed to create index buffer! Unknown Rendering API!");
