@@ -33,7 +33,8 @@ namespace Snowflake {
 			glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			glBindVertexArray(m_VertexArray);
+			m_Shader->Bind();
+			m_VertexArray->Bind();
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)
@@ -82,27 +83,27 @@ namespace Snowflake {
 
 		float vertices[3 * 3] = {
 			-0.5f, -0.5f, 0.0f,
-			0.5f, -0.5f, 0.0f,
-			0.0f, 0.5f, 0.0f
+			 0.5f, -0.5f, 0.0f,
+			 0.0f,  0.5f, 0.0f
 		};
 
 		unsigned int indices[3] = {
 			0, 1, 2
 		};
 
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		m_Shader = Shader::CreateShader("Assets/Shaders/Default.glsl");
 
-		glGenBuffers(1, &m_VertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		m_VertexArray = VertexArray::CreateVertexArray();
 
-		glGenBuffers(1, &m_IndexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		m_VertexBuffer = VertexBuffer::CreateBuffer(vertices, sizeof(vertices));
+		m_VertexBuffer->SetBufferLayout({
+			{ ShaderDataType::Float3, "a_Position" }
+		});
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
-		glEnableVertexAttribArray(0);
+		m_IndexBuffer = IndexBuffer::CreateBuffer(indices, sizeof(indices));
+		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 
 		/*-------------------*/
 	}

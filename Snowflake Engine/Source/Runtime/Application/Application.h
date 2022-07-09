@@ -7,6 +7,12 @@
 #include "Layers/LayerStack.h"
 #include "UI/ImGuiLayer.h"
 
+// Renderer
+#include "RendererCore/Shader.h"
+#include "RendererCore/VertexArray.h"
+#include "RendererCore/VertexBuffer.h"
+#include "RendererCore/IndexBuffer.h"
+
 namespace Snowflake {
 
 	class Application
@@ -45,7 +51,10 @@ namespace Snowflake {
 
 		LayerStack m_LayerStack;
 
-		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		Ref<Shader> m_Shader;
+		Ref<VertexBuffer> m_VertexBuffer;
+		Ref<IndexBuffer> m_IndexBuffer;
+		Ref<VertexArray> m_VertexArray;
 
 		bool m_IsRunning = true;
 	};

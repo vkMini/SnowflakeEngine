@@ -26,7 +26,6 @@ namespace Snowflake {
 				#endif
 			}
 
-			// TODO: (Maybe, not sure) Replace with Cocoa window
 			case PlatformUtils::OSPlatform::MacOS:
 			{
 				#ifdef SNOWFLAKE_PLATFORM_MACOS
@@ -34,7 +33,6 @@ namespace Snowflake {
 				#endif
 			}
 
-			// TODO: Replace with SDL2 window
 			case PlatformUtils::OSPlatform::Linux:
 			{
 				#ifdef SNOWFLAKE_PLATFORM_LINUX

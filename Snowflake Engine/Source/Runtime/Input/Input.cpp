@@ -26,8 +26,6 @@ namespace Snowflake {
 				#endif
 			}
 
-			/* TODO: Once the windowing libraries for Mac and Linux have changed, update their input classes */
-
 			case PlatformUtils::OSPlatform::MacOS:
 			{
 				#ifdef SNOWFLAKE_PLATFORM_MACOS

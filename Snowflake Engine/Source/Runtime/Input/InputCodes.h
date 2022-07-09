@@ -1,6 +1,5 @@
 #pragma once
 
-// TODO: Once the change in windowing APIs for MacOS and Linux has been done, refactor this to handle keycodes for those APIs
 namespace Snowflake {
 
 	enum KeyCode
