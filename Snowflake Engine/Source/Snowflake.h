@@ -19,6 +19,7 @@
 #include "Runtime/RendererCore/VertexArray.h"
 #include "Runtime/RendererCore/VertexBuffer.h"
 #include "Runtime/RendererCore/IndexBuffer.h"
+#include "Runtime/RendererCore/Texture.h"
 
 #include "Runtime/RendererCore/Renderer.h"
 #include "Runtime/RendererCore/RendererCommand.h"

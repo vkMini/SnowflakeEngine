@@ -42,8 +42,13 @@ namespace Snowflake {
 		glUseProgram(0);
 	}
 
-
 	/* Uniform Uploading Functions */
+
+	void OpenGLShader::SetInt(const std::string& name, int value)
+	{
+		GLint location = glGetUniformLocation(m_ShaderProgram, name.c_str());
+		glUniform1i(location, value);
+	}
 
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix)
 	{

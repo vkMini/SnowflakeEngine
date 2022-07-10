@@ -16,7 +16,10 @@ project "Snowflake Engine"
 		"Source/**.h",
 
 		"%{IncludeDir.glm}/**.hpp",
-		"%{IncludeDir.glm}/**.inl"
+		"%{IncludeDir.glm}/**.inl",
+
+		"%{IncludeDir.stb_image}/*.cpp",
+		"%{IncludeDir.stb_image}/*.h"
 	}
 
 	includedirs
@@ -30,7 +33,7 @@ project "Snowflake Engine"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.SDL2}"
+		"%{IncludeDir.stb_image}"
 	}
 
 	defines

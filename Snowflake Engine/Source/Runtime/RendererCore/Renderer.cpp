@@ -7,15 +7,21 @@ namespace Snowflake {
 
 	Scope<Renderer::SceneData> Renderer::s_SceneData = CreateScope<SceneData>();
 
+	void Renderer::Initialize()
+	{
+		RendererCommand::Initialize();
+	}
+
 	void Renderer::BeginScene(OrthographicCamera& orthographicCamera)
 	{
 		s_SceneData->ViewProjectionMatrix = orthographicCamera.GetViewProjectionMatrix();
 	}
 
-	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray)
+	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)
 	{
 		shader->Bind();
 		shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+		shader->SetMat4("u_Transform", transform);
 
 		vertexArray->Bind();
 		RendererCommand::DrawIndexed(vertexArray);

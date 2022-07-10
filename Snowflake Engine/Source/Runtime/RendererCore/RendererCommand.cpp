@@ -5,6 +5,11 @@ namespace Snowflake {
 
 	Scope<RendererAPI> RendererCommand::s_RendererAPI = RendererAPI::CreateAPI();
 
+	void RendererCommand::Initialize()
+	{
+		s_RendererAPI->Intialize();
+	}
+
 	void RendererCommand::SetClearColor(const glm::vec4& color)
 	{
 		s_RendererAPI->SetClearColor(color);

@@ -9,6 +9,8 @@ namespace Snowflake {
 	class RendererCommand
 	{
 	public:
+		static void Initialize();
+
 		static void SetClearColor(const glm::vec4& color);
 		static void Clear();
 

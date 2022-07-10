@@ -14,6 +14,7 @@ namespace Snowflake {
 	{
 		switch (Renderer::GetAPI())
 		{
+			case API::None: SNOWFLAKE_ENGINE_ASSERT(false, "Failed to create Rendering API instance! No Rendering API was selected!"); return nullptr;
 			case API::OpenGL: return CreateScope<OpenGLRendererAPI>();
 		}
 

@@ -9,6 +9,7 @@
 
 #include "Input/Input.h"
 
+#include "RendererCore/Renderer.h"
 #include "RendererCore/RendererCommand.h"
 
 #include <GLFW/glfw3.h>
@@ -86,6 +87,7 @@ namespace Snowflake {
 		PushLayer(m_ImGuiLayer);
 
 		Input::Initialize();
+		Renderer::Initialize();
 	}
 
 	
