@@ -14,8 +14,13 @@ namespace Snowflake {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
+
+		/* These update functions are meant to be similar to Unity's Update, FixedUpdate and LateUpdate functions. */
 		virtual void OnUpdate() {}
 		virtual void OnFixedUpdate(Time deltaTime) {}
+		virtual void OnLateUpdate() {}
+		/*----------------------------------------------------------------------------------------------------------*/
+
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

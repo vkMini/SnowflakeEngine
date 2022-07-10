@@ -59,6 +59,12 @@ public:
 		m_CameraController.OnFixedUpdate(deltaTime);
 	}
 	
+	// Called after OnUpdate and OnFixedUpdate
+	void OnLateUpdate() override
+	{
+
+	}
+
 	// Called when an event is dispatched
 	void OnEvent(Snowflake::Event& event) override
 	{

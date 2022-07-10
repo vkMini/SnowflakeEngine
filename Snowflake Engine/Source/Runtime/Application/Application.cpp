@@ -9,7 +9,6 @@
 
 #include "Input/Input.h"
 
-#include "RendererCore/Renderer.h"
 #include "RendererCore/RendererCommand.h"
 
 #include <GLFW/glfw3.h>
@@ -45,6 +44,8 @@ namespace Snowflake {
 
 				if (deltaTime <= 0 || deltaTime.GetMilliseconds() <= 0)
 					layer->OnFixedUpdate(deltaTime);
+
+				layer->OnLateUpdate();
 			}
 
 			m_ImGuiLayer->Begin();
@@ -90,7 +91,6 @@ namespace Snowflake {
 	
 	void Application::Shutdown()
 	{
-
 	}
 
 	/*--------*/
@@ -101,6 +101,7 @@ namespace Snowflake {
 	{
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(SNOWFLAKE_BIND_EVENT_FUNCTION(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(SNOWFLAKE_BIND_EVENT_FUNCTION(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.begin(); it != m_LayerStack.end(); ++it)
 		{
@@ -113,6 +114,13 @@ namespace Snowflake {
 	bool Application::OnWindowClose(WindowCloseEvent& event)
 	{
 		Quit();
+
+		return false;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& event)
+	{
+		RendererCommand::SetViewport(0, 0, event.GetWidth(), event.GetHeight());
 
 		return false;
 	}

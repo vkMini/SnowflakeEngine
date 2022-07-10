@@ -7,12 +7,6 @@
 #include "Layers/LayerStack.h"
 #include "UI/ImGuiLayer.h"
 
-// Renderer
-#include "RendererCore/Shader.h"
-#include "RendererCore/VertexArray.h"
-#include "RendererCore/VertexBuffer.h"
-#include "RendererCore/IndexBuffer.h"
-
 namespace Snowflake {
 
 	class Application
@@ -42,6 +36,7 @@ namespace Snowflake {
 		// Events
 		void OnEvent(Event& event);
 		bool OnWindowClose(WindowCloseEvent& event);
+		bool OnWindowResize(WindowResizeEvent& event);
 	private:
 		static Application* s_ApplicationInstance;
 
@@ -50,11 +45,6 @@ namespace Snowflake {
 		ImGuiLayer* m_ImGuiLayer;
 
 		LayerStack m_LayerStack;
-
-		Ref<Shader> m_Shader;
-		Ref<VertexBuffer> m_VertexBuffer;
-		Ref<IndexBuffer> m_IndexBuffer;
-		Ref<VertexArray> m_VertexArray;
 
 		float m_LastFrameTime = 0.0f;
 
