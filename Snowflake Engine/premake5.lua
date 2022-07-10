@@ -23,6 +23,7 @@ project "Snowflake Engine"
 	{
 		"Source",
 		"Source/Runtime",
+		"Source/Runtime/Core",
 
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.GLFW}",

@@ -56,6 +56,8 @@ namespace Snowflake {
 		Ref<IndexBuffer> m_IndexBuffer;
 		Ref<VertexArray> m_VertexArray;
 
+		float m_LastFrameTime = 0.0f;
+
 		bool m_IsRunning = true;
 	};
 

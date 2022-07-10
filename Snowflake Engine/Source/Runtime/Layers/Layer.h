@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Time/Time.h"
+
 #include "Events/Event.h"
 
 namespace Snowflake {
@@ -13,6 +15,7 @@ namespace Snowflake {
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdate() {}
+		virtual void OnFixedUpdate(Time deltaTime) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

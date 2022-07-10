@@ -2,6 +2,7 @@
 #include "Application.h"
 
 #include "Core/Core.h"
+#include "Time/Time.h"
 
 #include "Logging/Log.h"
 #include "Events/ApplicationEvent.h"
@@ -11,6 +12,7 @@
 #include "RendererCore/Renderer.h"
 #include "RendererCore/RendererCommand.h"
 
+#include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
 extern bool bIsApplicationRunning;
@@ -33,8 +35,17 @@ namespace Snowflake {
 	{
 		while (m_IsRunning)
 		{
+			float time = (float) glfwGetTime();
+			Time deltaTime = m_LastFrameTime - time;
+			m_LastFrameTime = time;
+
 			for (Layer* layer : m_LayerStack)
+			{
 				layer->OnUpdate();
+
+				if (deltaTime <= 0 || deltaTime.GetMilliseconds() <= 0)
+					layer->OnFixedUpdate(deltaTime);
+			}
 
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)

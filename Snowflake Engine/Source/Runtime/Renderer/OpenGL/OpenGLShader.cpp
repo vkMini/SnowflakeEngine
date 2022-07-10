@@ -3,6 +3,8 @@
 
 #include "Utilities/FileUtils.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include <glad/glad.h>
 
 namespace Snowflake {
@@ -39,6 +41,17 @@ namespace Snowflake {
 	{
 		glUseProgram(0);
 	}
+
+
+	/* Uniform Uploading Functions */
+
+	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix)
+	{
+		GLint location = glGetUniformLocation(m_ShaderProgram, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
+	/*-----------------------------*/
 
 	/*-----------------------------------------------------------------------------------------------------------------------------*/
 	/* Used in compilation of shaders read from files. Credit to The Cherno for this method of shader pre-processing and compiling */

@@ -3,6 +3,9 @@
 class SandboxLayer : public Snowflake::Layer
 {
 public:
+	SandboxLayer()
+		: Layer("SandboxLayer"), m_CameraController((float)Snowflake::Application::GetInstance().GetWindow().GetWidth() / (float)Snowflake::Application::GetInstance().GetWindow().GetHeight(), true) {}
+
 	// Called when the layer is created or push
 	void OnAttach() override
 	{
@@ -43,19 +46,31 @@ public:
 		Snowflake::RendererCommand::SetClearColor({ 0.45f, 0.55f, 0.60f, 1.0f });
 		Snowflake::RendererCommand::Clear();
 
+		Snowflake::Renderer::BeginScene(m_CameraController.GetCamera());
+
 		Snowflake::Renderer::Submit(m_Shader, m_VertexArray);
+
+		Snowflake::Renderer::EndScene();
+	}
+
+	// OnUpdate, but with delta time and called on a delta time interval
+	void OnFixedUpdate(Snowflake::Time deltaTime) override
+	{
+		m_CameraController.OnFixedUpdate(deltaTime);
 	}
 	
 	// Called when an event is dispatched
 	void OnEvent(Snowflake::Event& event) override
 	{
-		
+		m_CameraController.OnEvent(event);
 	}
 private:
 	Snowflake::Ref<Snowflake::Shader> m_Shader;
 	Snowflake::Ref<Snowflake::VertexBuffer> m_VertexBuffer;
 	Snowflake::Ref<Snowflake::IndexBuffer> m_IndexBuffer;
 	Snowflake::Ref<Snowflake::VertexArray> m_VertexArray;
+
+	Snowflake::OrthographicCameraController m_CameraController;
 };
 
 class SandboxApp : public Snowflake::Application
