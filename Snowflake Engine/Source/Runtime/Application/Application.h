@@ -48,6 +48,7 @@ namespace Snowflake {
 
 		float m_LastFrameTime = 0.0f;
 
+		bool m_IsWindowMinimized = false;
 		bool m_IsRunning = true;
 	};
 

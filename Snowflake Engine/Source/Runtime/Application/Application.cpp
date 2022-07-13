@@ -39,20 +39,23 @@ namespace Snowflake {
 			Time deltaTime = m_LastFrameTime - time;
 			m_LastFrameTime = time;
 
-			for (Layer* layer : m_LayerStack)
+			if (!m_IsWindowMinimized)
 			{
-				layer->OnUpdate();
+				for (Layer* layer : m_LayerStack)
+				{
+					layer->OnUpdate();
 
-				if (deltaTime <= 0 || deltaTime.GetMilliseconds() <= 0)
-					layer->OnFixedUpdate(deltaTime);
+					if (deltaTime <= 0 || deltaTime.GetMilliseconds() <= 0)
+						layer->OnFixedUpdate(deltaTime);
 
-				layer->OnLateUpdate();
+					layer->OnLateUpdate();
+				}
+
+				m_ImGuiLayer->Begin();
+				for (Layer* layer : m_LayerStack)
+					layer->OnImGuiRender();
+				m_ImGuiLayer->End();
 			}
-
-			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
-				layer->OnImGuiRender();
-			m_ImGuiLayer->End();
 
 			m_AppWindow->ProcessEvents();
 			m_AppWindow->SwapBuffers();
@@ -123,8 +126,15 @@ namespace Snowflake {
 
 	bool Application::OnWindowResize(WindowResizeEvent& event)
 	{
-		RendererCommand::SetViewport(0, 0, event.GetWidth(), event.GetHeight());
+		if (event.GetWidth() == 0 || event.GetHeight() == 0)
+		{
+			m_IsWindowMinimized = true;
+			return false;
+		}
 
+		m_IsWindowMinimized = false;
+
+		RendererCommand::SetViewport(0, 0, event.GetWidth(), event.GetHeight());
 		return false;
 	}
 
