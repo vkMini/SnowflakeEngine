@@ -22,11 +22,8 @@
 #include "Runtime/RendererCore/Texture.h"
 
 #include "Runtime/RendererCore/Renderer.h"
+#include "Runtime/RendererCore/Renderer2D.h"
 #include "Runtime/RendererCore/RendererCommand.h"
 
 #include "Runtime/Core/Camera/OrthographicCamera.h"
 #include "Runtime/Core/Camera/OrthographicCameraController.h"
-
-/* This is required by Snowflake Engine applications to run. DO NOT REMOVE THIS! */
-#include "Runtime/Application/ApplicationEntryPoint.h"
-/*-------------------------------------------------------------------------------*/

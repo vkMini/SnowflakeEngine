@@ -1,4 +1,7 @@
 #include <Snowflake.h>
+#include <Application/ApplicationEntryPoint.h>
+
+#include "Sandbox2D.h"
 
 class SandboxLayer : public Snowflake::Layer
 {
@@ -99,7 +102,8 @@ class SandboxApp : public Snowflake::Application
 public:
 	SandboxApp()
 	{
-		PushLayer(new SandboxLayer());
+		//PushLayer(new SandboxLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~SandboxApp()

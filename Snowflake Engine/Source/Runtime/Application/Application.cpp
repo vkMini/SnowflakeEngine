@@ -93,6 +93,7 @@ namespace Snowflake {
 	
 	void Application::Shutdown()
 	{
+		Renderer::Shutdown();
 	}
 
 	/*--------*/

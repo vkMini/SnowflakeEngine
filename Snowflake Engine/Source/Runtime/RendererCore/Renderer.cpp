@@ -1,6 +1,7 @@
 #include "sfpch.h"
 #include "Renderer.h"
 
+#include "Renderer2D.h"
 #include "RendererCommand.h"
 
 namespace Snowflake {
@@ -10,6 +11,12 @@ namespace Snowflake {
 	void Renderer::Initialize()
 	{
 		RendererCommand::Initialize();
+		Renderer2D::Initialize();
+	}
+
+	void Renderer::Shutdown()
+	{
+		Renderer2D::Shutdown();
 	}
 
 	void Renderer::BeginScene(OrthographicCamera& orthographicCamera)

@@ -13,6 +13,7 @@ namespace Snowflake {
 	{
 	public:
 		static void Initialize();
+		static void Shutdown();
 
 		static void BeginScene(OrthographicCamera& orthographicCamera);
 		static void EndScene();
