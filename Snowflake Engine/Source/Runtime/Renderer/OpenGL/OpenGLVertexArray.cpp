@@ -9,17 +9,17 @@ namespace Snowflake {
 	{
 		switch (type)
 		{
-		case Snowflake::ShaderDataType::Float:    return GL_FLOAT;
-		case Snowflake::ShaderDataType::Float2:   return GL_FLOAT;
-		case Snowflake::ShaderDataType::Float3:   return GL_FLOAT;
-		case Snowflake::ShaderDataType::Float4:   return GL_FLOAT;
-		case Snowflake::ShaderDataType::Mat3:     return GL_FLOAT;
-		case Snowflake::ShaderDataType::Mat4:     return GL_FLOAT;
-		case Snowflake::ShaderDataType::Int:      return GL_INT;
-		case Snowflake::ShaderDataType::Int2:     return GL_INT;
-		case Snowflake::ShaderDataType::Int3:     return GL_INT;
-		case Snowflake::ShaderDataType::Int4:     return GL_INT;
-		case Snowflake::ShaderDataType::Bool:     return GL_BOOL;
+			case Snowflake::ShaderDataType::Float:    return GL_FLOAT;
+			case Snowflake::ShaderDataType::Float2:   return GL_FLOAT;
+			case Snowflake::ShaderDataType::Float3:   return GL_FLOAT;
+			case Snowflake::ShaderDataType::Float4:   return GL_FLOAT;
+			case Snowflake::ShaderDataType::Mat3:     return GL_FLOAT;
+			case Snowflake::ShaderDataType::Mat4:     return GL_FLOAT;
+			case Snowflake::ShaderDataType::Int:      return GL_INT;
+			case Snowflake::ShaderDataType::Int2:     return GL_INT;
+			case Snowflake::ShaderDataType::Int3:     return GL_INT;
+			case Snowflake::ShaderDataType::Int4:     return GL_INT;
+			case Snowflake::ShaderDataType::Bool:     return GL_BOOL;
 		}
 
 		SNOWFLAKE_ENGINE_ASSERT(false, "Failed to convert shader data type to OpenGL base type!");
@@ -29,8 +29,7 @@ namespace Snowflake {
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		glCreateVertexArrays(1, &m_VertexArray);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()

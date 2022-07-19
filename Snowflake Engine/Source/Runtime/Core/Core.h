@@ -41,7 +41,7 @@ namespace Snowflake {
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}
 
-	// Scopes
+	// Scopes 
 	template<typename T>
 	using Scope = std::unique_ptr<T>;
 

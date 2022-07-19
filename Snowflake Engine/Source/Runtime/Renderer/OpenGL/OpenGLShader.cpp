@@ -104,6 +104,16 @@ namespace Snowflake {
 		{
 			GLenum shaderType = keyValue.first;
 			const std::string& shaderSource = keyValue.second;
+			
+			std::string shaderTypeStr;
+			switch (shaderType)
+			{
+				case GL_VERTEX_SHADER:   shaderTypeStr = "vertex";   break;
+				case GL_FRAGMENT_SHADER: shaderTypeStr = "fragment"; break;
+				case GL_GEOMETRY_SHADER: shaderTypeStr = "geometry"; break;
+				case GL_COMPUTE_SHADER:  shaderTypeStr = "compute";  break;
+			}
+
 
 			GLuint shader = glCreateShader(shaderType);
 
@@ -124,7 +134,7 @@ namespace Snowflake {
 
 				glDeleteShader(shader);
 
-				SNOWFLAKE_ENGINE_ERROR("Failed to compile shader!");
+				SNOWFLAKE_ENGINE_ERROR("Failed to compile {} shader!", shaderTypeStr);
 				SNOWFLAKE_ENGINE_ERROR("{}", infoLog.data());
 				break;
 			}

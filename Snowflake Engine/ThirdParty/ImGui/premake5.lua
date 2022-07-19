@@ -12,7 +12,7 @@ project "ImGui"
         "*.h"
     }
 
-    filter "system:windows"
+  filter "system:windows"
 		systemversion "latest"
 
 	filter "configurations:Debug"
@@ -24,6 +24,6 @@ project "ImGui"
 		optimize "on"
 
     filter "configurations:Dist"
-		runtime "Release"
-		optimize "on"
-        symbols "off"
+		  runtime "Release"
+		  optimize "on"
+      symbols "off"

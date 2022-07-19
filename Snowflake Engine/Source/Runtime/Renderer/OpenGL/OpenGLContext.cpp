@@ -24,7 +24,7 @@ namespace Snowflake {
 		SNOWFLAKE_ENGINE_INFO("  Renderer: {}", glGetString(GL_RENDERER));
 		SNOWFLAKE_ENGINE_INFO("  Version: {}", glGetString(GL_VERSION));
 
-		SNOWFLAKE_ENGINE_ASSERT(GLVersion.major > 4 || (GLVersion.major == 4 && GLVersion.minor >= 3), "Failed to create an OpenGL context! Snowflake Engine requires OpenGL 4.3 or higher!");
+		SNOWFLAKE_ENGINE_ASSERT(GLVersion.major > 4 || (GLVersion.major == 4 && GLVersion.minor >= 5), "Failed to create an OpenGL context! Snowflake Engine requires OpenGL 4.5 or higher!");
 	}
 
 }

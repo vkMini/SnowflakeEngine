@@ -10,10 +10,11 @@ namespace Snowflake {
 
 	struct RendererData
 	{
-		Ref<Shader> FlatColorShader;
-		Ref<Shader> TextureShader;
+		Ref<Shader> DefaultShader;
 
 		Ref<VertexArray> QuadVertexArray;
+
+		Ref<Texture2D> WhiteTexture;
 	};
 
 	static RendererData s_RendererData;
@@ -31,11 +32,9 @@ namespace Snowflake {
 			0, 1, 2, 2, 3, 0
 		};
 
-		s_RendererData.FlatColorShader = Shader::CreateShader("Assets/Shaders/FlatColor.glsl");
-
-		s_RendererData.TextureShader = Shader::CreateShader("Assets/Shaders/Texture.glsl");
-		s_RendererData.TextureShader->Bind();
-		s_RendererData.TextureShader->SetInt("u_Texture", 0);
+		s_RendererData.DefaultShader = Shader::CreateShader("Assets/Shaders/Default.glsl");
+		s_RendererData.DefaultShader->Bind();
+		s_RendererData.DefaultShader->SetInt("u_Texture", 0);
 
 		s_RendererData.QuadVertexArray = VertexArray::CreateVertexArray();
 
@@ -49,6 +48,10 @@ namespace Snowflake {
 		s_RendererData.QuadVertexArray->SetIndexBuffer(indexBuffer);
 
 		s_RendererData.QuadVertexArray->AddVertexBuffer(vertexBuffer);
+		
+		s_RendererData.WhiteTexture = Texture2D::CreateTexture2D(1, 1);
+		uint32_t whiteTextureData = 0xffffffff;
+		s_RendererData.WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 	}
 
 	void Renderer2D::Shutdown()
@@ -58,11 +61,8 @@ namespace Snowflake {
 
 	void Renderer2D::BeginScene(const OrthographicCamera& orthographicCamera)
 	{
-		s_RendererData.FlatColorShader->Bind();
-		s_RendererData.FlatColorShader->SetMat4("u_ViewProjection", orthographicCamera.GetViewProjectionMatrix());
-
-		s_RendererData.TextureShader->Bind();
-		s_RendererData.FlatColorShader->SetMat4("u_ViewProjection", orthographicCamera.GetViewProjectionMatrix());
+		s_RendererData.DefaultShader->Bind();
+		s_RendererData.DefaultShader->SetMat4("u_ViewProjection", orthographicCamera.GetViewProjectionMatrix());
 	}
 
 	void Renderer2D::EndScene()
@@ -75,9 +75,10 @@ namespace Snowflake {
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f)) * 
 			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
 
-		s_RendererData.FlatColorShader->Bind();
-		s_RendererData.FlatColorShader->SetFloat4("u_Color", color);
-		s_RendererData.FlatColorShader->SetMat4("u_Transform", transform);
+		s_RendererData.DefaultShader->SetFloat4("u_Color", color);
+		s_RendererData.DefaultShader->SetMat4("u_Transform", transform);
+
+		s_RendererData.WhiteTexture->Bind();
 
 		s_RendererData.QuadVertexArray->Bind();
 
@@ -91,8 +92,8 @@ namespace Snowflake {
 
 		texture->Bind();
 
-		s_RendererData.TextureShader->Bind();
-		s_RendererData.TextureShader->SetMat4("u_Transform", transform);
+		s_RendererData.DefaultShader->SetFloat4("u_Color", glm::vec4(1.0f));
+		s_RendererData.DefaultShader->SetMat4("u_Transform", transform);
 
 		s_RendererData.QuadVertexArray->Bind();
 
