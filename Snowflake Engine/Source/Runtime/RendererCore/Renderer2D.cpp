@@ -72,8 +72,8 @@ namespace Snowflake {
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f)) * 
-			glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f)) 
+			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
 
 		s_RendererData.DefaultShader->SetFloat4("u_Color", color);
 		s_RendererData.DefaultShader->SetMat4("u_Transform", transform);
@@ -85,14 +85,50 @@ namespace Snowflake {
 		RendererCommand::DrawIndexed(s_RendererData.QuadVertexArray);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float titlingFactor, const glm::vec4& tintColor)
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
 			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
 
 		texture->Bind();
 
-		s_RendererData.DefaultShader->SetFloat4("u_Color", glm::vec4(1.0f));
+		s_RendererData.DefaultShader->SetFloat("u_TilingFactor", titlingFactor);
+		s_RendererData.DefaultShader->SetFloat4("u_Color", tintColor);
+		s_RendererData.DefaultShader->SetFloat4("u_TintColor", tintColor);
+		s_RendererData.DefaultShader->SetMat4("u_Transform", transform);
+
+		s_RendererData.QuadVertexArray->Bind();
+
+		RendererCommand::DrawIndexed(s_RendererData.QuadVertexArray);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
+	{
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
+			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f))
+			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
+
+		s_RendererData.DefaultShader->SetFloat4("u_Color", color);
+		s_RendererData.DefaultShader->SetMat4("u_Transform", transform);
+
+		s_RendererData.WhiteTexture->Bind();
+
+		s_RendererData.QuadVertexArray->Bind();
+
+		RendererCommand::DrawIndexed(s_RendererData.QuadVertexArray);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
+	{
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
+			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f))
+			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
+
+		texture->Bind();
+
+		s_RendererData.DefaultShader->SetFloat("u_TilingFactor", tilingFactor);
+		s_RendererData.DefaultShader->SetFloat4("u_Color", tintColor);
+		s_RendererData.DefaultShader->SetFloat4("u_TintColor", tintColor);
 		s_RendererData.DefaultShader->SetMat4("u_Transform", transform);
 
 		s_RendererData.QuadVertexArray->Bind();

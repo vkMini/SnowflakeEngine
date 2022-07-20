@@ -46,20 +46,50 @@ namespace Snowflake {
 
 	void OpenGLShader::SetInt(const std::string& name, int value)
 	{
-		GLint location = glGetUniformLocation(m_ShaderProgram, name.c_str());
-		glUniform1i(location, value);
+		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
+		glUniform1i(uniformLocation, value);
+	}
+
+	void OpenGLShader::SetIntArray(const std::string& name, int* values, uint32_t count)
+	{
+		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
+		glUniform1iv(uniformLocation, count, values);
+	}
+
+	void OpenGLShader::SetFloat(const std::string& name, float value)
+	{
+		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
+		glUniform1f(uniformLocation, value);
+	}
+
+	void OpenGLShader::SetFloat2(const std::string& name, const glm::vec2& values)
+	{
+		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
+		glUniform2f(uniformLocation, values.x, values.y);
+	}
+
+	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& values)
+	{
+		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
+		glUniform3f(uniformLocation, values.x, values.y, values.z);
 	}
 
 	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& values)
 	{
-		GLint location = glGetUniformLocation(m_ShaderProgram, name.c_str());
-		glUniform4f(location, values.x, values.y, values.z, values.w);
+		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
+		glUniform4f(uniformLocation, values.x, values.y, values.z, values.w);
+	}
+
+	void OpenGLShader::SetMat3(const std::string& name, const glm::mat3& matrix)
+	{
+		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
+		glUniformMatrix3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix)
 	{
-		GLint location = glGetUniformLocation(m_ShaderProgram, name.c_str());
-		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
+		glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
 	/*-----------------------------*/

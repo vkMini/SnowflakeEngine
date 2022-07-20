@@ -22,6 +22,7 @@ private:
 	Snowflake::Ref<Snowflake::IndexBuffer> m_IndexBuffer;
 
 	Snowflake::Ref<Snowflake::Texture2D> m_MarioTexture;
+	Snowflake::Ref<Snowflake::Texture2D> m_CheckerboardTexture;
 
 	Snowflake::OrthographicCameraController m_CameraController;
 };

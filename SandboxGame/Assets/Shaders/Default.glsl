@@ -18,6 +18,7 @@ void main()
 #type fragment
 #version 450 core
 
+uniform float u_TilingFactor;
 uniform vec4 u_Color;
 uniform sampler2D u_Texture;
 
@@ -27,5 +28,5 @@ out vec4 FragColor;
 
 void main()
 {
-	FragColor = texture(u_Texture, v_TextureCoord) * u_Color;
+	FragColor = texture(u_Texture, v_TextureCoord * u_TilingFactor) * u_Color;
 }
