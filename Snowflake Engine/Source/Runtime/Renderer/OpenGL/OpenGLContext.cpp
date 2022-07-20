@@ -4,6 +4,8 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	OpenGLContext::OpenGLContext(void* windowHandle)
@@ -14,6 +16,8 @@ namespace Snowflake {
 
 	void OpenGLContext::Initialize()
 	{
+		OPTICK_EVENT();
+
 		auto window = static_cast<GLFWwindow*>(m_WindowHandle);
 
 		glfwMakeContextCurrent(window);

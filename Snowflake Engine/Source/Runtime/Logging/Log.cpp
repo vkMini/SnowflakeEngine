@@ -4,6 +4,8 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	static bool s_LoggersRegistered = false;
@@ -13,9 +15,11 @@ namespace Snowflake {
 
 	void Log::Initialize()
 	{
+		OPTICK_EVENT();
+
 		std::vector<spdlog::sink_ptr> loggerSinks;
 		loggerSinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
-		loggerSinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("Logs/Snowflake Engine", true));
+		loggerSinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("Logs/Snowflake Engine.log", true));
 
 		loggerSinks[0]->set_pattern("[%m-%d-%Y | %I:%M:%S] %^[%l] (%n): %v%$");
 		loggerSinks[1]->set_pattern("[%m-%d-%Y | %I:%M:%S] %^[%l] (%n): %v%$");

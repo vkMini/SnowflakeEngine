@@ -27,3 +27,7 @@
 
 #include "Runtime/Core/Camera/OrthographicCamera.h"
 #include "Runtime/Core/Camera/OrthographicCameraController.h"
+
+/* Utils */
+#include "Utilities/FileUtils.h"
+#include "Utilities/PlatformUtils.h"

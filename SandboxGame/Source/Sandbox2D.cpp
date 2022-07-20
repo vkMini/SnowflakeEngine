@@ -1,5 +1,7 @@
 #include "Sandbox2D.h"
 
+#include <imgui.h>
+
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox2D"), m_CameraController((float)Snowflake::Application::GetInstance().GetWindow().GetWidth() / (float)Snowflake::Application::GetInstance().GetWindow().GetHeight()) {}
 

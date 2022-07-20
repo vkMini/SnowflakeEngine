@@ -3,6 +3,8 @@
 
 #include <glad/glad.h>
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	static GLenum ConvertShaderDataTypeToOpenGLBaseType(ShaderDataType type)
@@ -29,26 +31,36 @@ namespace Snowflake {
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		OPTICK_EVENT();
+
 		glCreateVertexArrays(1, &m_VertexArray);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		OPTICK_EVENT();
+
 		glDeleteVertexArrays(1, &m_VertexArray);
 	}
 
 	void OpenGLVertexArray::Bind() const
 	{
+		OPTICK_EVENT();
+
 		glBindVertexArray(m_VertexArray);
 	}
 
 	void OpenGLVertexArray::Unbind() const
 	{
+		OPTICK_EVENT();
+
 		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
+		OPTICK_EVENT();
+
 		SNOWFLAKE_ENGINE_ASSERT(vertexBuffer->GetBufferLayout().GetElements().size(), "Failed to add vertex buffer! It has no layout!");
 
 		glBindVertexArray(m_VertexArray);
@@ -73,6 +85,8 @@ namespace Snowflake {
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
+		OPTICK_EVENT();
+
 		glBindVertexArray(m_VertexArray);
 		indexBuffer->Bind();
 

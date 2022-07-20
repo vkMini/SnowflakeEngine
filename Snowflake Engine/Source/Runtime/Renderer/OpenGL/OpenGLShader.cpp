@@ -7,6 +7,8 @@
 
 #include <glad/glad.h>
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	static GLenum GetShaderTypeFromString(const std::string& type)
@@ -21,7 +23,14 @@ namespace Snowflake {
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& filepath)
+		: m_Filepath(filepath)
 	{
+		OPTICK_EVENT();
+
+		// Extract the filename of the shader including the .glsl extension.
+		// This is primarily used to know which shader has any errors if one does fail to compile.
+		m_ShaderFileName = m_Filepath.substr(m_Filepath.find_last_of("/\\") + 1);
+
 		std::string shaderSource = FileUtils::ReadAllLines(filepath);
 		auto shaderSources = PreProcess(shaderSource);
 		Compile(shaderSources);
@@ -29,16 +38,22 @@ namespace Snowflake {
 
 	OpenGLShader::~OpenGLShader()
 	{
+		OPTICK_EVENT();
+
 		glDeleteProgram(m_ShaderProgram);
 	}
 
 	void OpenGLShader::Bind()
 	{
+		OPTICK_EVENT();
+
 		glUseProgram(m_ShaderProgram);
 	}
 
 	void OpenGLShader::Unbind()
 	{
+		OPTICK_EVENT();
+
 		glUseProgram(0);
 	}
 
@@ -46,48 +61,64 @@ namespace Snowflake {
 
 	void OpenGLShader::SetInt(const std::string& name, int value)
 	{
+		OPTICK_EVENT();
+
 		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 		glUniform1i(uniformLocation, value);
 	}
 
 	void OpenGLShader::SetIntArray(const std::string& name, int* values, uint32_t count)
 	{
+		OPTICK_EVENT();
+
 		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 		glUniform1iv(uniformLocation, count, values);
 	}
 
 	void OpenGLShader::SetFloat(const std::string& name, float value)
 	{
+		OPTICK_EVENT();
+
 		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 		glUniform1f(uniformLocation, value);
 	}
 
 	void OpenGLShader::SetFloat2(const std::string& name, const glm::vec2& values)
 	{
+		OPTICK_EVENT();
+
 		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 		glUniform2f(uniformLocation, values.x, values.y);
 	}
 
 	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& values)
 	{
+		OPTICK_EVENT();
+
 		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 		glUniform3f(uniformLocation, values.x, values.y, values.z);
 	}
 
 	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& values)
 	{
+		OPTICK_EVENT();
+
 		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 		glUniform4f(uniformLocation, values.x, values.y, values.z, values.w);
 	}
 
 	void OpenGLShader::SetMat3(const std::string& name, const glm::mat3& matrix)
 	{
+		OPTICK_EVENT();
+
 		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 		glUniformMatrix3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix)
 	{
+		OPTICK_EVENT();
+
 		GLint uniformLocation = glGetUniformLocation(m_ShaderProgram, name.c_str());
 		glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
@@ -100,6 +131,8 @@ namespace Snowflake {
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& shaderSource)
 	{
+		OPTICK_EVENT();
+
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -124,6 +157,8 @@ namespace Snowflake {
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
+		OPTICK_EVENT();
+
 		GLuint shaderProgram = glCreateProgram();
 		SNOWFLAKE_ENGINE_ASSERT(shaderSources.size() <= 2, "Failed to compile shader! Only two shader types are allowed in one file!");
 
@@ -164,7 +199,7 @@ namespace Snowflake {
 
 				glDeleteShader(shader);
 
-				SNOWFLAKE_ENGINE_ERROR("Failed to compile {} shader!", shaderTypeStr);
+				SNOWFLAKE_ENGINE_ERROR("Failed to compile {} shader! ({})", shaderTypeStr, m_ShaderFileName);
 				SNOWFLAKE_ENGINE_ERROR("{}", infoLog.data());
 				break;
 			}

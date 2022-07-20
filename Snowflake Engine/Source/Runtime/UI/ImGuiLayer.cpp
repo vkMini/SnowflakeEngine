@@ -9,6 +9,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	ImGuiLayer::ImGuiLayer()
@@ -16,6 +18,8 @@ namespace Snowflake {
 
 	void ImGuiLayer::OnAttach()
 	{
+		OPTICK_EVENT();
+
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 
@@ -47,6 +51,8 @@ namespace Snowflake {
 
 	void ImGuiLayer::OnDetach()
 	{
+		OPTICK_EVENT();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
@@ -54,12 +60,13 @@ namespace Snowflake {
 
 	void ImGuiLayer::OnImGuiRender()
 	{
-		static bool showDemoWindow = true;
-		ImGui::ShowDemoWindow(&showDemoWindow);
+		OPTICK_EVENT();
 	}
 
 	void ImGuiLayer::Begin()
 	{
+		OPTICK_EVENT();
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -67,6 +74,8 @@ namespace Snowflake {
 
 	void ImGuiLayer::End()
 	{
+		OPTICK_EVENT();
+
 		Window& appWindow = Application::GetInstance().GetWindow();
 		
 		ImGuiIO& io = ImGui::GetIO();

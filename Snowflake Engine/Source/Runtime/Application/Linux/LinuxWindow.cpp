@@ -11,6 +11,8 @@
 
 #include <glad/glad.h>
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	static bool s_GLFWInitialized = false;
@@ -25,6 +27,8 @@ namespace Snowflake {
 
 	void LinuxWindow::Initialize()
 	{
+		OPTICK_EVENT();
+
 		m_WindowData.Width = m_Specification.Width;
 		m_WindowData.Height = m_Specification.Height;
 		m_WindowData.Title = m_Specification.Title;
@@ -42,9 +46,6 @@ namespace Snowflake {
 			});
 		}
 
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_MAXIMIZED, m_Specification.Maximized ? GLFW_TRUE : GLFW_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, m_Specification.Resizable ? GLFW_TRUE : GLFW_FALSE);
 
@@ -182,6 +183,8 @@ namespace Snowflake {
 
 	void LinuxWindow::Shutdown()
 	{
+		OPTICK_EVENT();
+
 		glfwDestroyWindow(m_WindowHandle);
 		glfwTerminate();
 	}
@@ -189,16 +192,22 @@ namespace Snowflake {
 
 	void LinuxWindow::ProcessEvents()
 	{
+		OPTICK_EVENT();
+
 		glfwPollEvents();
 	}
 
 	void LinuxWindow::SwapBuffers()
 	{
+		OPTICK_EVENT();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 
 	std::pair<uint32_t, uint32_t> LinuxWindow::GetPosition() const
 	{
+		OPTICK_EVENT();
+
 		int xPos, yPos;
 		glfwGetWindowPos(m_WindowHandle, &xPos, &yPos);
 
@@ -207,18 +216,24 @@ namespace Snowflake {
 
 	void LinuxWindow::SetVSyncEnabled(bool isEnabled)
 	{
+		OPTICK_EVENT();
+
 		glfwSwapInterval(isEnabled ? GLFW_TRUE : GLFW_FALSE);
 		m_WindowData.VSync = isEnabled;
 	}
 
 	void LinuxWindow::SetResizable(bool isResizable)
 	{
+		OPTICK_EVENT();
+
 		glfwWindowHint(GLFW_RESIZABLE, isResizable ? GLFW_TRUE : GLFW_FALSE);
 		m_WindowData.Resizable = isResizable;
 	}
 
 	void LinuxWindow::Maximize()
 	{
+		OPTICK_EVENT();
+
 		if (!m_Specification.Fullscreen)
 			glfwMaximizeWindow(m_WindowHandle);
 		else
@@ -227,6 +242,8 @@ namespace Snowflake {
 
 	void LinuxWindow::CenterWindow()
 	{
+		OPTICK_EVENT();
+
 		if (!m_Specification.Fullscreen)
 		{
 			const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -247,6 +264,8 @@ namespace Snowflake {
 
 	void LinuxWindow::SetTitle(const std::string& title)
 	{
+		OPTICK_EVENT();
+
 		glfwSetWindowTitle(m_WindowHandle, title.c_str());
 		m_WindowData.Title = title;
 	}

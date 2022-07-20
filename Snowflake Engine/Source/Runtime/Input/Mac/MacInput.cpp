@@ -5,10 +5,14 @@
 
 #include <GLFW/glfw3.h>
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	bool MacInput::GetKeyDownImpl(KeyCode keyCode)
 	{
+		OPTICK_EVENT();
+
 		auto appWindow = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetWindowHandle());
 		int keyState = glfwGetKey(appWindow, keyCode);
 
@@ -17,6 +21,8 @@ namespace Snowflake {
 
 	bool MacInput::GetKeyUpImpl(KeyCode keyCode)
 	{
+		OPTICK_EVENT();
+
 		auto appWindow = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetWindowHandle());
 		int keyState = glfwGetKey(appWindow, keyCode);
 
@@ -25,6 +31,8 @@ namespace Snowflake {
 
 	bool MacInput::GetMouseButtonDownImpl(MouseButton mouseButton)
 	{
+		OPTICK_EVENT();
+
 		auto appWindow = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetWindowHandle());
 		int mouseButtonState = glfwGetMouseButton(appWindow, mouseButton);
 
@@ -33,6 +41,8 @@ namespace Snowflake {
 
 	bool MacInput::GetMouseButtonUpImpl(MouseButton mouseButton)
 	{
+		OPTICK_EVENT();
+
 		auto appWindow = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetWindowHandle());
 		int mouseButtonState = glfwGetMouseButton(appWindow, mouseButton);
 
@@ -41,6 +51,8 @@ namespace Snowflake {
 
 	glm::vec2 MacInput::GetMousePositionImpl()
 	{
+		OPTICK_EVENT();
+
 		auto appWindow = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetWindowHandle());
 		double xPos, yPos;
 
@@ -51,11 +63,15 @@ namespace Snowflake {
 
 	float MacInput::GetMouseXImpl()
 	{
+		OPTICK_EVENT();
+
 		return GetMousePosition().x;
 	}
 
 	float MacInput::GetMouseYImpl()
 	{
+		OPTICK_EVENT();
+
 		return GetMousePosition().y;
 	}
 

@@ -4,10 +4,14 @@
 #include <stb_image.h>
 #include <glad/glad.h>
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& filepath)
 	{
+		OPTICK_EVENT();
+
 		stbi_set_flip_vertically_on_load(GL_TRUE);
 
 		int width, height, channels;
@@ -45,6 +49,8 @@ namespace Snowflake {
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 		: m_Width(width), m_Height(height)
 	{
+		OPTICK_EVENT();
+
 		m_InternalFormat = GL_RGBA8;
 		m_DataFormat = GL_RGBA;
 
@@ -59,16 +65,22 @@ namespace Snowflake {
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
+		OPTICK_EVENT();
+
 		glDeleteTextures(1, &m_TextureID);
 	}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
+
+		OPTICK_EVENT();
 		glBindTextureUnit(slot, m_TextureID);
 	}
 
 	void OpenGLTexture2D::SetData(void* data, uint32_t size)
 	{
+		OPTICK_EVENT();
+
 		uint32_t bytesPerPixel = m_DataFormat == GL_RGBA ? 4 : 3;
 		SNOWFLAKE_ENGINE_ASSERT(size == m_Width * m_Height * bytesPerPixel, "Failed to set texture 2D data! It must be the entire texture!");
 

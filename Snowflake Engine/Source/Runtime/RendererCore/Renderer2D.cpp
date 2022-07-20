@@ -6,6 +6,8 @@
 
 #include "RendererCommand.h"
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	struct RendererData
@@ -21,6 +23,8 @@ namespace Snowflake {
 
 	void Renderer2D::Initialize()
 	{
+		OPTICK_EVENT();
+
 		float vertices[5 * 4] = {
 		  -0.5f, -0.5f, 0.0f,	0.0f, 0.0f,
 		   0.5f, -0.5f, 0.0f,	1.0f, 0.0f,
@@ -56,22 +60,26 @@ namespace Snowflake {
 
 	void Renderer2D::Shutdown()
 	{
-
+		OPTICK_EVENT();
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& orthographicCamera)
 	{
+		OPTICK_EVENT();
+
 		s_RendererData.DefaultShader->Bind();
 		s_RendererData.DefaultShader->SetMat4("u_ViewProjection", orthographicCamera.GetViewProjectionMatrix());
 	}
 
 	void Renderer2D::EndScene()
 	{
-
+		OPTICK_EVENT();
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
+		OPTICK_EVENT();
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f)) 
 			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
 
@@ -87,6 +95,8 @@ namespace Snowflake {
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float titlingFactor, const glm::vec4& tintColor)
 	{
+		OPTICK_EVENT();
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
 			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
 
@@ -104,6 +114,8 @@ namespace Snowflake {
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 	{
+		OPTICK_EVENT();
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f))
 			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
@@ -120,6 +132,8 @@ namespace Snowflake {
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
+		OPTICK_EVENT();
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f))
 			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));

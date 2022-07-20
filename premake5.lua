@@ -21,6 +21,7 @@ group "Dependencies"
 	include "Snowflake Engine/ThirdParty/GLFW"
 	include "Snowflake Engine/ThirdParty/Glad"
 	include "Snowflake Engine/ThirdParty/ImGui"
+	include "Snowflake Engine/ThirdParty/Optick"
 group ""
 
 group "Core"

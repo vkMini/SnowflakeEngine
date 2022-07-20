@@ -3,6 +3,8 @@
 
 #include "Input/Input.h"
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool isRotatable)
@@ -10,6 +12,8 @@ namespace Snowflake {
 
 	void OrthographicCameraController::OnFixedUpdate(Time deltaTime)
 	{
+		OPTICK_EVENT();
+
 		if (Input::GetKeyDown(KeyCode::A))
 		{
 			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraMovementSpeed * deltaTime;

@@ -15,6 +15,8 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
+#include <optick.h>
+
 extern bool bIsApplicationRunning;
 
 namespace Snowflake {
@@ -35,6 +37,8 @@ namespace Snowflake {
 	{
 		while (m_IsRunning)
 		{
+			OPTICK_FRAME("MainThread");
+
 			float time = (float) glfwGetTime();
 			Time deltaTime = m_LastFrameTime - time;
 			m_LastFrameTime = time;
@@ -80,6 +84,8 @@ namespace Snowflake {
 
 	void Application::Initialize()
 	{
+		OPTICK_EVENT();
+
 		s_ApplicationInstance = this;
 
 		m_AppWindow = Window::CreateWindow();
@@ -96,6 +102,8 @@ namespace Snowflake {
 	
 	void Application::Shutdown()
 	{
+		OPTICK_EVENT();
+
 		Renderer::Shutdown();
 	}
 

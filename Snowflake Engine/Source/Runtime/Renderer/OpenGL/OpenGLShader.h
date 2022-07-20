@@ -29,6 +29,9 @@ namespace Snowflake {
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& shaderSource);
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 	private:
+		std::string m_Filepath;
+		std::string m_ShaderFileName;
+
 		uint32_t m_ShaderProgram;
 	};
 }

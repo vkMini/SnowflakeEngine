@@ -11,6 +11,8 @@
 
 #include <glad/glad.h>
 
+#include <optick.h>
+
 namespace Snowflake {
 
 	static bool s_GLFWInitialized = false;
@@ -25,6 +27,8 @@ namespace Snowflake {
 
 	void WindowsWindow::Initialize()
 	{
+		OPTICK_EVENT();
+
 		m_WindowData.Width = m_Specification.Width;
 		m_WindowData.Height = m_Specification.Height;
 		m_WindowData.Title = m_Specification.Title;
@@ -182,22 +186,30 @@ namespace Snowflake {
 
 	void WindowsWindow::Shutdown()
 	{
+		OPTICK_EVENT();
+
 		glfwDestroyWindow(m_WindowHandle);
 		glfwTerminate();
 	}
 
 	void WindowsWindow::ProcessEvents()
 	{
+		OPTICK_EVENT();
+
 		glfwPollEvents();
 	}
 
 	void WindowsWindow::SwapBuffers()
 	{
+		OPTICK_EVENT();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 
 	std::pair<uint32_t, uint32_t> WindowsWindow::GetPosition() const
 	{
+		OPTICK_EVENT();
+
 		int xPos, yPos;
 		glfwGetWindowPos(m_WindowHandle, &xPos, &yPos);
 
@@ -206,18 +218,24 @@ namespace Snowflake {
 
 	void WindowsWindow::SetVSyncEnabled(bool isEnabled)
 	{
+		OPTICK_EVENT();
+
 		glfwSwapInterval(isEnabled ? GLFW_TRUE : GLFW_FALSE);
 		m_WindowData.VSync = isEnabled;
 	}
 
 	void WindowsWindow::SetResizable(bool isResizable)
 	{
+		OPTICK_EVENT();
+
 		glfwWindowHint(GLFW_RESIZABLE, isResizable ? GLFW_TRUE : GLFW_FALSE);
 		m_WindowData.Resizable = isResizable;
 	}
 
 	void WindowsWindow::Maximize()
 	{
+		OPTICK_EVENT();
+
 		if (!m_Specification.Fullscreen)
 			glfwMaximizeWindow(m_WindowHandle);
 		else
@@ -226,6 +244,8 @@ namespace Snowflake {
 
 	void WindowsWindow::CenterWindow()
 	{
+		OPTICK_EVENT();
+
 		if (!m_Specification.Fullscreen)
 		{
 			const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -246,6 +266,8 @@ namespace Snowflake {
 
 	void WindowsWindow::SetTitle(const std::string& title)
 	{
+		OPTICK_EVENT();
+
 		glfwSetWindowTitle(m_WindowHandle, title.c_str());
 		m_WindowData.Title = title;
 	}

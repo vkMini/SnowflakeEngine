@@ -22,7 +22,8 @@ project "SandboxGame"
 		"%{wks.location}/Snowflake Engine/Source/Runtime/Core",
 
 		"%{IncludeDir.spdlog}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links

@@ -33,7 +33,8 @@ project "Snowflake Engine"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.Optick}"
 	}
 
 	defines
@@ -47,6 +48,8 @@ project "Snowflake Engine"
 		"GLFW",
 		"Glad",
 		"ImGui",
+		"Optick",
+
 		"opengl32.lib"
 	}
 
@@ -80,7 +83,7 @@ project "Snowflake Engine"
 		runtime "Release"
 		optimize "On"
 
-	filter "configurations:Release"
-		defines "SNOWFLAKE_RELEASE"
+	filter "configurations:Dist"
+		defines "SNOWFLAKE_DIST"
 		runtime "Release"
-		optimize "Off"
+		optimize "On"

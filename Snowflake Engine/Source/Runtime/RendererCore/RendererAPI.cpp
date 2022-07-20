@@ -7,7 +7,6 @@
 
 namespace Snowflake {
 
-
 	RendererAPI::API RendererAPI::s_RendererAPI = API::OpenGL;
 
 	Scope<RendererAPI> RendererAPI::CreateAPI()
