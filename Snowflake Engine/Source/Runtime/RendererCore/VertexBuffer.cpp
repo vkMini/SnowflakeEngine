@@ -19,4 +19,16 @@ namespace Snowflake {
 		return nullptr;
 	}
 
+	Ref<VertexBuffer> VertexBuffer::CreateBuffer(uint32_t size)
+	{
+		switch (Renderer::GetAPI())
+		{
+			case RendererAPI::API::None: SNOWFLAKE_ENGINE_ASSERT(false, "Failed to create vertex buffer! No Rendering API was selected!"); return nullptr;
+			case RendererAPI::API::OpenGL: return CreateRef<OpenGLVertexBuffer>(size);
+		}
+
+		SNOWFLAKE_ENGINE_ASSERT(false, "Failed to create vertex buffer! Unknown Rendering API!");
+		return nullptr;
+	}
+
 }

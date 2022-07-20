@@ -35,11 +35,11 @@ namespace Snowflake {
 		s_RendererAPI->SetViewport(x, y, width, height);
 	}
 
-	void RendererCommand::DrawIndexed(const Ref<VertexArray>& vertexArray)
+	void RendererCommand::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount)
 	{
 		OPTICK_EVENT();
 
-		s_RendererAPI->DrawIndexed(vertexArray);
+		s_RendererAPI->DrawIndexed(vertexArray, indexCount);
 	}
 
 }

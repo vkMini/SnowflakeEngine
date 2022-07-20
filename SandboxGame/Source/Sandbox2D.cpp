@@ -22,13 +22,11 @@ void Sandbox2D::OnUpdate()
 	Snowflake::RendererCommand::Clear();
 
 	Snowflake::Renderer2D::BeginScene(m_CameraController.GetCamera());
-	
-	Snowflake::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-	Snowflake::Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-	Snowflake::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, m_MarioTexture, 5.0f);
 
-	Snowflake::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f }, { 10.0f, 10.0f }, 45.0f, m_CheckerboardTexture, 10.0f, { 0.2f, 0.8f, 0.3f, 0.5f });
-	
+	Snowflake::Renderer2D::DrawQuad({ -1.0, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f }); // Red
+	Snowflake::Renderer2D::DrawQuad({ 0.0, 0.0f }, { 1.0f, 1.0f }, { 0.2f, 0.8f, 0.3f, 1.0f });  // Green
+	Snowflake::Renderer2D::DrawQuad({ 1.0, 0.0f }, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f });  // Blue
+
 	Snowflake::Renderer2D::EndScene();
 }
 
