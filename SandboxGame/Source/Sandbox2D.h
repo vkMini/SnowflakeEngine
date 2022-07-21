@@ -27,6 +27,8 @@ private:
 	Snowflake::Ref<Snowflake::Texture2D> m_LuigiTexture;
 	Snowflake::Ref<Snowflake::Texture2D> m_CheckerboardTexture;
 
+	Snowflake::Ref<Snowflake::Framebuffer> m_Framebuffer;
+
 	Snowflake::OrthographicCameraController m_CameraController;
 };
 

@@ -10,6 +10,12 @@ void Sandbox2D::OnAttach()
 	m_CheckerboardTexture = Snowflake::Texture2D::CreateTexture2D("Assets/Textures/Checkerboard.png");
 	m_MarioTexture = Snowflake::Texture2D::CreateTexture2D("Assets/Textures/Mario.png");
 	m_LuigiTexture = Snowflake::Texture2D::CreateTexture2D("Assets/Textures/Luigi.png");
+
+	Snowflake::FramebufferSpecification framebufferSpec;
+	framebufferSpec.Width = Snowflake::Application::GetInstance().GetWindow().GetWidth();
+	framebufferSpec.Height = Snowflake::Application::GetInstance().GetWindow().GetHeight();
+
+	m_Framebuffer = Snowflake::Framebuffer::CreateFramebuffer(framebufferSpec);
 } 
 
 void Sandbox2D::OnDetach()
@@ -23,6 +29,8 @@ void Sandbox2D::OnUpdate()
 	rotation += Snowflake::Application::GetInstance().GetDeltaTime() * 20.0f;
 
 	Snowflake::Renderer2D::ResetStats();
+
+	m_Framebuffer->Bind();
 
 	Snowflake::RendererCommand::SetClearColor({ 0.45f, 0.55f, 0.60f, 1.0f });
 	Snowflake::RendererCommand::Clear();
@@ -39,6 +47,10 @@ void Sandbox2D::OnUpdate()
 
 	Snowflake::Renderer2D::EndScene();
 
+	m_Framebuffer->Unbind();
+
+	m_Framebuffer->Bind();
+
 	Snowflake::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
 	for (float y = -5.0f; y < 5.0f; y += 0.5f)
@@ -53,6 +65,8 @@ void Sandbox2D::OnUpdate()
 	Snowflake::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f }, { 20.0f, 20.0f }, 0.0f, m_CheckerboardTexture, 10.0f);
 
 	Snowflake::Renderer2D::EndScene();
+
+	m_Framebuffer->Unbind();
 }
 
 void Sandbox2D::OnFixedUpdate(Snowflake::Time deltaTime)
@@ -141,6 +155,8 @@ void Sandbox2D::OnImGuiRender()
 
 		ImGui::TreePop();
 	}
+
+	ImGui::Image((void*)m_Framebuffer->GetColorAttachmentHandle(), { 1280, 720 }, { 0,1 }, { 1,0 });
 
 	ImGui::End();
 }
