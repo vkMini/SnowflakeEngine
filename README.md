@@ -2,13 +2,13 @@
 
 ## What is Snowflake Engine?
 
-Snowflake Engine is a 2D/3D rendering engine made with primary use case of game development in mind. It is also made with performance and ease of use in mind, so you can make your game and release it as fast as possible.
+Snowflake Engine is a 2D rendering engine (with planned 3D support) made with the primary use case of game development in mind. It is also made with performance and ease of use in mind, so you can make your game and release it as fast as possible.
 
 As of currently, the engine is still very early into its development, so many core features of any game engine are missing and are yet to be implemented.
 
 ## Getting Started
 
-While the engine doesn't have any editor UI to make a game in, you can still build the engine from source and test it in its current state. The process of doing so is very straightforward and simple.
+While the engine currently doesn't have any editor UI to make a game in, you can still build the engine from source and test it in its current state. The process of doing so is very straightforward and simple.
 
 ### Prerequisites
 
@@ -48,9 +48,14 @@ In Visual Studio Code, assuming you have the "Makefile Tools" extension installe
 
 And that's it! You should now be up and running with the engine from it's source code.
 
-## Current Plans for Snowflake Engine
+## Current Plans for Snowflake Engine (**NOTE**: None of what is here is currently being worked on, but what I plan to have in the engine in the future)
 
-Currently, I do not have any specific plans for engine and/or its development. This section will be updated if something does come up.
+- Create a functional editor UI interface
+- Add support for an Entity Component System
+- Add support for physics
+- Add support for C# Scripting
+- Add support for more graphics APIs, preferably Vulkan and/or DirectX
+- Add support for 3D once 2D is complete.
 
 ## Contributing to Snowflake's developement
 
