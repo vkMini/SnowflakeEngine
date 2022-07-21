@@ -46,7 +46,7 @@ namespace Snowflake {
 		GLFWwindow* appWindow = static_cast<GLFWwindow*>(Application::GetInstance().GetWindow().GetWindowHandle());
 
 		ImGui_ImplGlfw_InitForOpenGL(appWindow, true);
-		ImGui_ImplOpenGL3_Init("#version 430 core");
+		ImGui_ImplOpenGL3_Init("#version 450 core");
 	}
 
 	void ImGuiLayer::OnDetach()
