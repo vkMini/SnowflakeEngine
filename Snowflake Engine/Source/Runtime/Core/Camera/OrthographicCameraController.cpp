@@ -57,6 +57,12 @@ namespace Snowflake {
 		m_CameraMovementSpeed = m_ZoomLevel;
 	}
 
+	void OrthographicCameraController::ResizeBounds(float width, float height)
+	{
+		m_AspectRatio = width / height;
+		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	}
+
 	void OrthographicCameraController::OnEvent(Event& event)
 	{
 		EventDispatcher dispatcher(event);
@@ -75,9 +81,7 @@ namespace Snowflake {
 
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event)
 	{
-		m_AspectRatio = (float)event.GetWidth() / (float)event.GetHeight();
-		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
-
+		ResizeBounds(event.GetWidth(), event.GetHeight());
 		return false;
 	}
 

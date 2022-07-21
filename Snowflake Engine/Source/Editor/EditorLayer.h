@@ -22,23 +22,25 @@ namespace Snowflake {
 		virtual void OnDetach() override;
 
 		virtual void OnUpdate() override;
-		virtual void OnFixedUpdate(Snowflake::Time deltaTime) override;
+		virtual void OnFixedUpdate(Time deltaTime) override;
 
 		virtual void OnImGuiRender() override;
 
-		virtual void OnEvent(Snowflake::Event& event) override;
+		virtual void OnEvent(Event& event) override;
 	private:
-		Snowflake::Ref<Snowflake::Shader> m_Shader;
-		Snowflake::Ref<Snowflake::VertexArray> m_VertexArray;
-		Snowflake::Ref<Snowflake::VertexBuffer> m_VertexBuffer;
-		Snowflake::Ref<Snowflake::IndexBuffer> m_IndexBuffer;
+		Ref<Shader> m_Shader;
+		Ref<VertexArray> m_VertexArray;
+		Ref<VertexBuffer> m_VertexBuffer;
+		Ref<IndexBuffer> m_IndexBuffer;
 
-		Snowflake::Ref<Snowflake::Texture2D> m_MarioTexture;
-		Snowflake::Ref<Snowflake::Texture2D> m_LuigiTexture;
-		Snowflake::Ref<Snowflake::Texture2D> m_CheckerboardTexture;
+		Ref<Texture2D> m_MarioTexture;
+		Ref<Texture2D> m_LuigiTexture;
+		Ref<Texture2D> m_CheckerboardTexture;
 
-		Snowflake::Ref<Snowflake::Framebuffer> m_Framebuffer;
+		Ref<Framebuffer> m_Framebuffer;
 
-		Snowflake::OrthographicCameraController m_CameraController;
+		OrthographicCameraController m_CameraController;
+
+		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 	};
 }

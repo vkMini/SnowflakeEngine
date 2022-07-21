@@ -17,6 +17,8 @@ namespace Snowflake {
 		void OnFixedUpdate(Time deltaTime);
 		void OnEvent(Event& event);
 
+		void ResizeBounds(float width, float height);
+
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
 
