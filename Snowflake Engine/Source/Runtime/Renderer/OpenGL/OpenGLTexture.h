@@ -17,6 +17,11 @@ namespace Snowflake {
 		virtual void SetData(void* data, uint32_t size) override;
 
 		virtual void Bind(uint32_t slot = 0) const override;
+
+		virtual bool operator==(const Texture& other) const override
+		{
+			return m_TextureID == ((OpenGLTexture2D&)other).m_TextureID;
+		}
 	private:
 		uint32_t m_Width, m_Height;
 		uint32_t m_InternalFormat, m_DataFormat;
