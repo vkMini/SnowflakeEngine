@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Time/Time.h"
+
 #include "Events/ApplicationEvent.h"
 
 #include "Window.h"
@@ -26,6 +28,8 @@ namespace Snowflake {
 		static Application& GetInstance() { return *s_ApplicationInstance; }
 
 		Window& GetWindow() { return *m_AppWindow; }
+
+		float GetDeltaTime() { return m_DeltaTime; }
 	private:
 		// Used to initialize the engine when running it
 		void Initialize();
@@ -44,6 +48,7 @@ namespace Snowflake {
 
 		ImGuiLayer* m_ImGuiLayer;
 
+		Time m_DeltaTime;
 		LayerStack m_LayerStack;
 
 		float m_LastFrameTime = 0.0f;

@@ -37,6 +37,8 @@ namespace Snowflake {
 		uint32_t QuadIndexCount = 0;
 		uint32_t TextureSlotIndex = 1; // This doesn't start a 0 because index 0 is going to hold the white texture
 
+		glm::vec4 QuadVertexPositions[4];
+
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 	};
 
@@ -95,6 +97,11 @@ namespace Snowflake {
 		s_RendererData.WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
 		s_RendererData.TextureSlots[0] = s_RendererData.WhiteTexture;
+
+		s_RendererData.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
+		s_RendererData.QuadVertexPositions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
+		s_RendererData.QuadVertexPositions[2] = {  0.5f,  0.5f, 0.0f, 1.0f };
+		s_RendererData.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 	}
 
 	void Renderer2D::Shutdown()
@@ -141,28 +148,31 @@ namespace Snowflake {
 		const float textureIndex = 0.0f; // This will always be 0 so the white texture can be used.
 		const float tilingFactor = 1.0f; // We are sampling from the white textures, so this must be 1.
 
-		s_RendererData.QuadVertexBufferPtr->Position = { position.x, position.y, 0.0f };
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
+			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
+
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[0];
 		s_RendererData.QuadVertexBufferPtr->Color = color;
 		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
 		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
 		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_RendererData.QuadVertexBufferPtr++;
 
-		s_RendererData.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[1];
 		s_RendererData.QuadVertexBufferPtr->Color = color;
 		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
 		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
 		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_RendererData.QuadVertexBufferPtr++;
 
-		s_RendererData.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[2];
 		s_RendererData.QuadVertexBufferPtr->Color = color;
 		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
 		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
 		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_RendererData.QuadVertexBufferPtr++;
 
-		s_RendererData.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[3];
 		s_RendererData.QuadVertexBufferPtr->Color = color;
 		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
 		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
@@ -172,7 +182,7 @@ namespace Snowflake {
 		s_RendererData.QuadIndexCount += 6;
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float titlingFactor, const glm::vec4& tintColor)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
 		OPTICK_EVENT();
 
@@ -195,32 +205,35 @@ namespace Snowflake {
 			s_RendererData.TextureSlotIndex++;
 		}
 
-		s_RendererData.QuadVertexBufferPtr->Position = { position.x, position.y, 0.0f };
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
+			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
+
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[0];
 		s_RendererData.QuadVertexBufferPtr->Color = color;
 		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
 		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
-		s_RendererData.QuadVertexBufferPtr->TilingFactor = titlingFactor;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_RendererData.QuadVertexBufferPtr++;
 
-		s_RendererData.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[1];
 		s_RendererData.QuadVertexBufferPtr->Color = color;
 		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
 		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
-		s_RendererData.QuadVertexBufferPtr->TilingFactor = titlingFactor;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_RendererData.QuadVertexBufferPtr++;
 
-		s_RendererData.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[2];
 		s_RendererData.QuadVertexBufferPtr->Color = color;
 		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
 		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
-		s_RendererData.QuadVertexBufferPtr->TilingFactor = titlingFactor;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_RendererData.QuadVertexBufferPtr++;
 
-		s_RendererData.QuadVertexBufferPtr->Position = { position.x, position.y + size.y, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[3];
 		s_RendererData.QuadVertexBufferPtr->Color = color;
 		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
 		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
-		s_RendererData.QuadVertexBufferPtr->TilingFactor = titlingFactor;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_RendererData.QuadVertexBufferPtr++;
 
 		s_RendererData.QuadIndexCount += 6;
@@ -230,38 +243,100 @@ namespace Snowflake {
 	{
 		OPTICK_EVENT();
 
+		const float textureIndex = 0.0f; // This will always be 0 so the white texture can be used.
+		const float tilingFactor = 1.0f; // We are sampling from the white textures, so this must be 1.
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f))
 			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
 
-		s_RendererData.DefaultShader->SetFloat4("u_Color", color);
-		s_RendererData.DefaultShader->SetMat4("u_Transform", transform);
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[0];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
 
-		s_RendererData.WhiteTexture->Bind();
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[1];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
 
-		s_RendererData.QuadVertexArray->Bind();
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[2];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
 
-		RendererCommand::DrawIndexed(s_RendererData.QuadVertexArray);
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[3];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
+
+		s_RendererData.QuadIndexCount += 6;
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
 		OPTICK_EVENT();
 
+		constexpr glm::vec4 color = glm::vec4(1.0f);
+
+		float textureIndex = 0.0f;
+		for (uint32_t i = 1; i < s_RendererData.TextureSlotIndex; i++)
+		{
+			if (*s_RendererData.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)s_RendererData.TextureSlotIndex;
+			s_RendererData.TextureSlots[textureIndex] = texture;
+			s_RendererData.TextureSlotIndex++;
+		}
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f))
-			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 0.0f));
+			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
 
-		texture->Bind();
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[0];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
 
-		s_RendererData.DefaultShader->SetFloat("u_TilingFactor", tilingFactor);
-		s_RendererData.DefaultShader->SetFloat4("u_Color", tintColor);
-		s_RendererData.DefaultShader->SetFloat4("u_TintColor", tintColor);
-		s_RendererData.DefaultShader->SetMat4("u_Transform", transform);
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[1];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
 
-		s_RendererData.QuadVertexArray->Bind();
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[2];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
 
-		RendererCommand::DrawIndexed(s_RendererData.QuadVertexArray);
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[3];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
+
+		s_RendererData.QuadIndexCount += 6;
 	}
 
 }

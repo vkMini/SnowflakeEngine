@@ -40,7 +40,7 @@ namespace Snowflake {
 			OPTICK_FRAME("MainThread");
 
 			float time = (float) glfwGetTime();
-			Time deltaTime = m_LastFrameTime - time;
+			m_DeltaTime = m_LastFrameTime - time;
 			m_LastFrameTime = time;
 
 			if (!m_IsWindowMinimized)
@@ -49,8 +49,8 @@ namespace Snowflake {
 				{
 					layer->OnUpdate();
 
-					if (deltaTime <= 0 || deltaTime.GetMilliseconds() <= 0)
-						layer->OnFixedUpdate(deltaTime);
+					if (m_DeltaTime <= 0 || m_DeltaTime.GetMilliseconds() <= 0)
+						layer->OnFixedUpdate(m_DeltaTime);
 
 					layer->OnLateUpdate();
 				}
