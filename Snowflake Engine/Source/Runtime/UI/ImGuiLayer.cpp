@@ -28,7 +28,7 @@ namespace Snowflake {
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-		float fontSize = 18.0f;
+		float fontSize = 20.0f;
 		io.Fonts->AddFontFromFileTTF("Assets/Fonts/Poppins-Medium.ttf", fontSize);
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("Assets/Fonts/Poppins-Medium.ttf", fontSize);
 

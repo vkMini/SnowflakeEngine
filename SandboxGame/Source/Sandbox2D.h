@@ -14,6 +14,8 @@ public:
 	virtual void OnUpdate() override;
 	virtual void OnFixedUpdate(Snowflake::Time deltaTime) override;
 
+	virtual void OnImGuiRender() override;
+
 	virtual void OnEvent(Snowflake::Event& event) override;
 private:
 	Snowflake::Ref<Snowflake::Shader> m_Shader;

@@ -29,17 +29,20 @@ namespace Snowflake {
 		QuadVertex* QuadVertexBufferBase = nullptr;
 		QuadVertex* QuadVertexBufferPtr = nullptr;
 
-		const uint32_t MaxQuads = 10000;
-		const uint32_t MaxVertices = MaxQuads * 4;
-		const uint32_t MaxIndices = MaxQuads * 6;
+		Renderer2D::Statistics RendererStats;
+		
+		static const uint32_t MaxQuads = 20000;
+		static const uint32_t MaxVertices = MaxQuads * 4;
+		static const uint32_t MaxIndices = MaxQuads * 6;
 		static const uint32_t MaxTextureSlots = 32; // TODO: Add Renderer Capabilities
 
 		uint32_t QuadIndexCount = 0;
-		uint32_t TextureSlotIndex = 1; // This doesn't start a 0 because index 0 is going to hold the white texture
+		uint32_t TextureSlotIndex = 1; // This doesn't start at 0 because index 0 is going to hold the white texture
 
 		glm::vec4 QuadVertexPositions[4];
 
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
+
 	};
 
 	static RendererData s_RendererData;
@@ -134,19 +137,38 @@ namespace Snowflake {
 
 	void Renderer2D::Flush()
 	{
+		OPTICK_EVENT();
+
 		// Bind textures
 		for (uint32_t i = 0; i < s_RendererData.TextureSlotIndex; i++)
 			s_RendererData.TextureSlots[i]->Bind(i);
 
 		RendererCommand::DrawIndexed(s_RendererData.QuadVertexArray, s_RendererData.QuadIndexCount);
+
+		s_RendererData.RendererStats.DrawCalls++;
+	}
+
+	void Renderer2D::FlushAndReset()
+	{
+		OPTICK_EVENT();
+
+		EndScene();
+
+		s_RendererData.QuadIndexCount = 0;
+		s_RendererData.QuadVertexBufferPtr = s_RendererData.QuadVertexBufferBase;
+
+		s_RendererData.TextureSlotIndex = 1;
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		OPTICK_EVENT();
 
+		if (s_RendererData.QuadIndexCount > RendererData::MaxIndices)
+			FlushAndReset();
+
 		const float textureIndex = 0.0f; // This will always be 0 so the white texture can be used.
-		const float tilingFactor = 1.0f; // We are sampling from the white textures, so this must be 1.
+		const float tilingFactor = 1.0f; // We are sampling from the white texture, so this must be 1.
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
 			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
@@ -180,11 +202,16 @@ namespace Snowflake {
 		s_RendererData.QuadVertexBufferPtr++;
 
 		s_RendererData.QuadIndexCount += 6;
+
+		s_RendererData.RendererStats.QuadCount++;
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
 		OPTICK_EVENT();
+
+		if (s_RendererData.QuadIndexCount > RendererData::MaxIndices)
+			FlushAndReset();
 
 		constexpr glm::vec4 color = glm::vec4(1.0f);
 
@@ -237,11 +264,16 @@ namespace Snowflake {
 		s_RendererData.QuadVertexBufferPtr++;
 
 		s_RendererData.QuadIndexCount += 6;
+
+		s_RendererData.RendererStats.QuadCount++;
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 	{
 		OPTICK_EVENT();
+
+		if (s_RendererData.QuadIndexCount > RendererData::MaxIndices)
+			FlushAndReset();
 
 		const float textureIndex = 0.0f; // This will always be 0 so the white texture can be used.
 		const float tilingFactor = 1.0f; // We are sampling from the white textures, so this must be 1.
@@ -279,11 +311,16 @@ namespace Snowflake {
 		s_RendererData.QuadVertexBufferPtr++;
 
 		s_RendererData.QuadIndexCount += 6;
+
+		s_RendererData.RendererStats.QuadCount++;
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
 		OPTICK_EVENT();
+
+		if (s_RendererData.QuadIndexCount > RendererData::MaxIndices)
+			FlushAndReset();
 
 		constexpr glm::vec4 color = glm::vec4(1.0f);
 
@@ -337,6 +374,18 @@ namespace Snowflake {
 		s_RendererData.QuadVertexBufferPtr++;
 
 		s_RendererData.QuadIndexCount += 6;
+
+		s_RendererData.RendererStats.QuadCount++;
+	}
+
+	Renderer2D::Statistics Renderer2D::GetStats()
+	{
+		return s_RendererData.RendererStats;
+	}
+
+	void Renderer2D::ResetStats()
+	{
+		memset(&s_RendererData.RendererStats, 0, sizeof(Statistics));
 	}
 
 }

@@ -21,7 +21,8 @@ namespace Snowflake {
 		auto window = static_cast<GLFWwindow*>(m_WindowHandle);
 
 		glfwMakeContextCurrent(window);
-		SNOWFLAKE_CLIENT_ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to create an OpenGL context! Failed to initialize Glad!");
+		int gladInitSuccess = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		SNOWFLAKE_CLIENT_ASSERT(gladInitSuccess, "Failed to create an OpenGL context! Failed to initialize Glad!");
 
 		SNOWFLAKE_ENGINE_INFO("OpenGL Renderer Info:");
 		SNOWFLAKE_ENGINE_INFO("  Vendor: {}", glGetString(GL_VENDOR));
