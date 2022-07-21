@@ -23,7 +23,8 @@ namespace Snowflake {
 
 	Application* Application::s_ApplicationInstance = nullptr;
 
-	Application::Application()
+	Application::Application(const std::string& name)
+		: m_ApplicationName(name)
 	{
 		Initialize();
 	}
@@ -88,7 +89,10 @@ namespace Snowflake {
 
 		s_ApplicationInstance = this;
 
-		m_AppWindow = Window::CreateWindow();
+		WindowSpecification windowSpec;
+		windowSpec.Title = m_ApplicationName;
+
+		m_AppWindow = Window::CreateWindow(windowSpec);
 		m_AppWindow->Initialize();
 		m_AppWindow->SetEventCallbackFunction(SNOWFLAKE_BIND_EVENT_FUNCTION(Application::OnEvent));
 

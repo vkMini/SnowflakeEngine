@@ -14,7 +14,7 @@ namespace Snowflake {
 	class Application
 	{
 	public:
-		Application();
+		Application(const std::string& name = "Snowflake Engine");
 		virtual ~Application();
 
 		void Start();
@@ -50,6 +50,8 @@ namespace Snowflake {
 
 		Time m_DeltaTime;
 		LayerStack m_LayerStack;
+
+		std::string m_ApplicationName;
 
 		float m_LastFrameTime = 0.0f;
 

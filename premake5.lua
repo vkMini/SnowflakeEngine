@@ -2,13 +2,18 @@ include "Dependencies.lua"
 
 workspace "Snowflake Engine"
 	architecture "x86_64"
-	startproject "SandboxGame"
+	startproject "Snowstorm"
 
 	configurations
 	{
 		"Debug",
 		"Release",
 		"Dist"
+	}
+
+	flags
+	{
+		"MultiProcessorCompile"
 	}
 
 BinariesDir = "%{wks.location}/Binaries/%{prj.name}"
@@ -29,5 +34,9 @@ group "Core"
 group ""
 
 group "Tools"
+	include "Snowstorm"
+group ""
+
+group "Misc"
 	include "SandboxGame"
 group ""
