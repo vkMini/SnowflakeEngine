@@ -110,6 +110,8 @@ namespace Snowflake {
 	void Renderer2D::Shutdown()
 	{
 		OPTICK_EVENT();
+
+		delete[] s_RendererData.QuadVertexBufferBase;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& orthographicCamera)
@@ -214,6 +216,71 @@ namespace Snowflake {
 			FlushAndReset();
 
 		constexpr glm::vec4 color = glm::vec4(1.0f);
+
+		float textureIndex = 0.0f;
+		for (uint32_t i = 1; i < s_RendererData.TextureSlotIndex; i++)
+		{
+			if (*s_RendererData.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)s_RendererData.TextureSlotIndex;
+			s_RendererData.TextureSlots[textureIndex] = texture;
+			s_RendererData.TextureSlotIndex++;
+		}
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
+			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
+
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[0];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
+
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[1];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
+
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[2];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
+
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[3];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
+
+		s_RendererData.QuadIndexCount += 6;
+
+		s_RendererData.RendererStats.QuadCount++;
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, float tilingFactor /*= 1.0f*/, const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
+	{
+		OPTICK_EVENT();
+
+		if (s_RendererData.QuadIndexCount > RendererData::MaxIndices)
+			FlushAndReset();
+
+		constexpr size_t quadVertexCount = 4;
+		constexpr glm::vec4 color = glm::vec4(1.0f);
+		const glm::vec2* textureCoords = subTexture->GetTextureCoords();
+		const Ref<Texture2D> texture = subTexture->GetTexture();
 
 		float textureIndex = 0.0f;
 		for (uint32_t i = 1; i < s_RendererData.TextureSlotIndex; i++)
@@ -376,6 +443,70 @@ namespace Snowflake {
 		s_RendererData.QuadIndexCount += 6;
 
 		s_RendererData.RendererStats.QuadCount++;
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subTexture, float tilingFactor /*= 1.0f*/, const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
+	{
+		OPTICK_EVENT();
+
+		if (s_RendererData.QuadIndexCount > RendererData::MaxIndices)
+			FlushAndReset();
+
+		constexpr size_t quadVertexCount = 4;
+		constexpr glm::vec4 color = glm::vec4(1.0f);
+		const glm::vec2* textureCoords = subTexture->GetTextureCoords();
+		const Ref<Texture2D> texture = subTexture->GetTexture();
+
+		float textureIndex = 0.0f;
+		for (uint32_t i = 1; i < s_RendererData.TextureSlotIndex; i++)
+		{
+			if (*s_RendererData.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)s_RendererData.TextureSlotIndex;
+			s_RendererData.TextureSlots[textureIndex] = texture;
+			s_RendererData.TextureSlotIndex++;
+		}
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f))
+			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f))
+			* glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
+
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[0];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
+
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[1];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 0.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
+
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[2];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 1.0f, 1.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
+
+		s_RendererData.QuadVertexBufferPtr->Position = transform * s_RendererData.QuadVertexPositions[3];
+		s_RendererData.QuadVertexBufferPtr->Color = color;
+		s_RendererData.QuadVertexBufferPtr->TextureCoord = { 0.0f, 1.0f };
+		s_RendererData.QuadVertexBufferPtr->TextureIndex = textureIndex;
+		s_RendererData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_RendererData.QuadVertexBufferPtr++;
+
+		s_RendererData.QuadIndexCount += 6;
 	}
 
 	Renderer2D::Statistics Renderer2D::GetStats()
