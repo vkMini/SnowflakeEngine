@@ -66,3 +66,7 @@ You can do this by doing things such as reporting bugs and opening isseus, or su
 And if you have a copy of the engine's code, you can fix some these bugs or even add some of these suggested features and improvements yourself.
 
 In the end, any and all contributions and help with the engine's development is greatly appreciated :heart:
+
+## Credits
+
+[The Cherno](https://www.youtube.com/c/TheChernoProject): Hazel 2D being the base of Snowflake Engine
